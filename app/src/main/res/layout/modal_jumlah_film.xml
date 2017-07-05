@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="6dp"
+        card_view:elevation="3dp">
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Masukan jumlah tiket yang mau dipesan"
+                        android:textColor="@color/colorPrimary"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/jumlah_tiket"
+                        android:textColor="#000"
+                        android:background="@drawable/round_stroke"
+                        android:padding="16dp"
+                        android:inputType="number"
+                        android:layout_marginTop="8dp"
+                        android:textSize="14sp"
+                        android:minLines="3"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Jam tayang"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/colorPrimary"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/jam_tayang"
+                        android:padding="8dp"
+                        android:textSize="17dp"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:textColor="#fff"
+                        android:background="@color/orange"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Jam antar"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/colorPrimary"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/jam_dialog_beli_tiket"
+                        android:padding="8dp"
+                        android:textSize="17dp"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:textColor="#fff"
+                        android:background="@color/orange"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Alamat antar"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/colorPrimary"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/alamat_antar_tiket"
+                        android:hint="tuliskan alamat antar"
+                        android:maxLength="50"
+                        android:layout_marginLeft="16dp"
+                        android:textSize="16sp"
+                        android:inputType="textEmailAddress"/>
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorPrimary"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Batal"
+                        android:id="@+id/btn_batal"
+                        android:background="@drawable/round_btn_kiri"
+                        android:textColor="@color/colorPrimary"
+                        android:textAppearance="@android:style/TextAppearance.Medium"
+                        android:textSize="16sp"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Pesan"
+                        android:id="@+id/btn_pesan"
+                        android:background="@drawable/round_btn_kanan"
+                        android:textColor="@color/colorPrimary"
+                        android:textAppearance="@android:style/TextAppearance.Medium"
+                        android:textSize="16sp"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
