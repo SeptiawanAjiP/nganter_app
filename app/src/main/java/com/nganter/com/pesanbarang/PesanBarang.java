@@ -4,16 +4,31 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.nganter.com.R;
+import com.nganter.com.SessionManager;
+import com.nganter.com.handler.AppContoller;
+import com.nganter.com.koneksi.Alamat;
 import com.nganter.com.objek.Order;
+import com.nganter.com.ui.RegisterActivity;
+
+import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Septiawan Aji Pradan on 7/5/2017.
@@ -26,6 +41,7 @@ public class PesanBarang extends Dialog {
     private TextView waktuAntar,keteranganTv;
     private String keterangan;
     private EditText toko,pesanan,alamatAntar;
+    private SessionManager sessionManager;
     public PesanBarang(Activity activity,String keterangan){
         super(activity);
         this.activity =activity;
@@ -37,6 +53,7 @@ public class PesanBarang extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modal_order);
         keteranganTv = (TextView)findViewById(R.id.keterangan);
+        sessionManager = new SessionManager(activity.getApplicationContext());
         if(keterangan.equals("Pesan Makanan")){
             keteranganTv.setText("Tempat/Warung Makan");
         }else{
@@ -103,7 +120,50 @@ public class PesanBarang extends Dialog {
         },calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true);
     }
 
-    public void insertPesanan(Order order){
+    public void insertPesanan(final Order order){
+        final String kategori;
+        if(keterangan.equals("Pesan Makanan")){
+            kategori = "pesan_makanan";
+        }else{
+            kategori = "beli_barang";
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("__pesan_barang",response);
+                try{
+                    JSONObject j = new JSONObject(response);
+                    if(j.getString("status").equals("1")){
+                        Toast.makeText(activity, "Berhasil pesan, tunggu konfirmasi dari kami", Toast.LENGTH_LONG).show();
+                        dismiss();
+                    }else{
+                        Toast.makeText(activity, "Pesanan Gagal, mohon ulangi lagi", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
 
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> maps = new HashMap<>();
+                maps.put("kode","pesanan");
+                maps.put("id_pelanggan",sessionManager.getUserAkun().getIdPelanggan());
+                maps.put("kategori",kategori);
+                maps.put("pesanan",order.getToko()+"--"+order.getPesanan());
+                maps.put("jam_antar",order.getJamAntar());
+                maps.put("lokasi_antar",order.getJamAntar());
+                maps.put("nama_penerima",sessionManager.getUserAkun().getNama());
+                return maps;
+            }
+        };
+
+        AppContoller.getInstance(activity.getApplicationContext()).addToRequestQueue(stringRequest);
     }
 }

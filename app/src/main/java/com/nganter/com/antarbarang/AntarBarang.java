@@ -1,4 +1,4 @@
-package com.nganter.com.AntarBarang;
+package com.nganter.com.antarbarang;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -12,7 +12,6 @@ import android.widget.TimePicker;
 
 import com.nganter.com.R;
 import com.nganter.com.objek.Antar;
-import com.nganter.com.objek.Order;
 
 import java.util.Calendar;
 

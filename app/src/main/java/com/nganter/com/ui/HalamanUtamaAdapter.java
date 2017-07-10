@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nganter.com.AntarBarang.AntarBarang;
+import com.nganter.com.antarbarang.AntarBarang;
 import com.nganter.com.R;
 import com.nganter.com.hubungikami.HubungiKami;
 import com.nganter.com.objek.MenuUtama;
@@ -93,6 +93,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent intent = new Intent(activity,PesanTiketActivity.class);
                                     intent.putExtra(PesanTiketActivity.BIOSKOP,pilihan[def]);
+
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     activity.startActivity(intent);
                                 }

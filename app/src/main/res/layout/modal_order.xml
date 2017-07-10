@@ -37,7 +37,6 @@
                         android:layout_marginLeft="16dp"
                         android:maxLength="50"
                         android:textSize="16sp"
-                        android:inputType="number"
                         />
                     <TextView
                         android:layout_width="match_parent"

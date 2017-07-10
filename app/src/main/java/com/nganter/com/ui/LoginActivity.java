@@ -22,6 +22,7 @@ import com.nganter.com.SessionManager;
 import com.nganter.com.handler.AppContoller;
 import com.nganter.com.koneksi.Alamat;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -51,15 +52,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!email.getText().toString().isEmpty()){
                     if(!password.getText().toString().isEmpty()){
-
+                        login(email.getText().toString(),password.getText().toString());
                     }else{
                         Toast.makeText(LoginActivity.this, "Password Kosong", Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Toast.makeText(LoginActivity.this, "Email Kosong", Toast.LENGTH_SHORT).show();
                 }
-                Intent intent = new Intent(getApplicationContext(),HalamanUtama.class);
-                startActivity(intent);
+
             }
         });
 
@@ -76,17 +76,24 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest string = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.d("__login",response);
                 try{
-                    JSONObject j = new JSONObject(response);
-                    if(!j.isNull("respon")){
-                        Toast.makeText(LoginActivity.this, "Login Berhasil", Toast.LENGTH_LONG).show();
-                        session.createLoginSession(j.getString("id_pelanggan"),j.getString("alamat"),j.getString("username"),j.getString("no_telp"),j.getString("no_wa"));
-                        Intent intent = new Intent(getApplicationContext(),HalamanUtama.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+                    JSONObject k = new JSONObject(response);
+                    JSONArray array = k.getJSONArray("respon");
+                    Log.d("__login_array",""+array.length());
+                    if(array.length()!=0){
+                        for (int i=0;i<array.length();i++){
+                            JSONObject j = array.getJSONObject(i);
+                            Toast.makeText(LoginActivity.this, "Login Berhasil", Toast.LENGTH_LONG).show();
+                            session.createLoginSession(j.getString("id_pelanggan"),j.getString("alamat"),j.getString("username"),j.getString("no_telp"),j.getString("no_wa"));
+                            Intent intent = new Intent(getApplicationContext(),HalamanUtama.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
                     }else{
                         Toast.makeText(LoginActivity.this, "Login Gagal", Toast.LENGTH_SHORT).show();
                     }
+
 
                 }catch (Exception e){
                 }

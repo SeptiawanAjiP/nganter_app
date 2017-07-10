@@ -29,11 +29,13 @@ public class PesanTiketAdapter extends BaseAdapter {
     private Activity activity;
     private ImageView filmFoto;
     private TextView filmJudul;
+    private String namaBioskop;
     int def;
-    PesanTiketAdapter(Context context, ArrayList<Film> films,Activity activity){
+    PesanTiketAdapter(Context context, ArrayList<Film> films,Activity activity,String namaBioskop){
         this.context = context;
         this.films = films;
         this.activity = activity;
+        this.namaBioskop = namaBioskop;
     }
 
     @Override
@@ -71,7 +73,7 @@ public class PesanTiketAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ModalPesanTiket modalPesanTiket = new ModalPesanTiket(films.get(position),activity);
+                ModalPesanTiket modalPesanTiket = new ModalPesanTiket(films.get(position),activity,namaBioskop);
                 modalPesanTiket.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 modalPesanTiket.show();
 
