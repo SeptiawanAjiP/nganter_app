@@ -1,5 +1,6 @@
 package com.nganter.com.pesantiket;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.nganter.com.R;
+import com.nganter.com.handler.AppContoller;
 import com.nganter.com.koneksi.Alamat;
 import com.nganter.com.objek.Film;
 import com.nganter.com.ui.ExpandGridView;
@@ -37,6 +39,7 @@ public class PesanTiketActivity extends AppCompatActivity {
     private TextView namaBioskop;
     private ArrayList<Film> films;
     public static final String BIOSKOP = "bioskop";
+    private ProgressDialog progressDialog;
     int idBioskop;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,19 +47,23 @@ public class PesanTiketActivity extends AppCompatActivity {
         setContentView(R.layout.film_activity);
         namaBioskop = (TextView)findViewById(R.id.nama_bioskop);
         namaBioskop.setText(getIntent().getStringExtra(BIOSKOP));
-        expandGridView = (ExpandGridView)findViewById(R.id.grid_film);
-        expandGridView.setExpanded(true);
-        expandGridView.setFocusable(false);
+        films = new ArrayList<>();
         if(getIntent().getStringExtra(BIOSKOP).equals("Rajawali")){
             idBioskop=1;
         }else{
             idBioskop=2;
         }
+        showProgress();
         setData(idBioskop);
+        expandGridView = (ExpandGridView)findViewById(R.id.grid_film);
+        expandGridView.setExpanded(true);
+        expandGridView.setFocusable(false);
+
         expandGridView.setAdapter(new PesanTiketAdapter(getApplicationContext(),films,PesanTiketActivity.this,getIntent().getStringExtra(BIOSKOP)));
     }
 
     public void setData(final int idBisokop){
+        Log.d("jalan","kl");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -70,9 +77,10 @@ public class PesanTiketActivity extends AppCompatActivity {
                             Log.d("__film_1",jsonObject.toString());
                             Film film = new Film(jsonObject.getString("id_film"),jsonObject.getString("judul_film"),jsonObject.getString("path_foto"));
                             films.add(film);
+                            progressDialog.dismiss();
                         }
                     }else {
-                        Toast.makeText(PesanTiketActivity.this, "TIdak dapat load data, mohon ulangi lagi", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PesanTiketActivity.this, "Tidak dapat load data, mohon ulangi lagi", Toast.LENGTH_SHORT).show();
                     }
                 }catch (Exception e){
                 }
@@ -91,5 +99,15 @@ public class PesanTiketActivity extends AppCompatActivity {
                 return map;
             }
         };
+        AppContoller.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void showProgress() {
+        progressDialog = null;// Initialize to null
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
     }
 }

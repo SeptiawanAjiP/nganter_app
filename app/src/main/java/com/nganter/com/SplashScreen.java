@@ -110,7 +110,7 @@ public class SplashScreen extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }else{
-                        if(sessionManager.getUserAkun().getEmail()!=null){
+                        if(sessionManager.getUserAkun()!=null){
                             Intent intent = new Intent(getApplicationContext(), HalamanUtama.class);
                             startActivity(intent);
                             finish();

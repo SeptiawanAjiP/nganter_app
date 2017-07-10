@@ -3,6 +3,7 @@ package com.nganter.com.pesantiket;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,7 +44,7 @@ import java.util.Map;
 public class ModalPesanTiket extends Dialog {
     Film film;
     private EditText jumlahTiket,alamatAntar;
-    private Button pesan;
+    private Button pesan,batal;
     private Activity activity;
     private TextView waktuAntar,jamtayang;
     private String namaBioskop;
@@ -51,6 +52,7 @@ public class ModalPesanTiket extends Dialog {
     private TimePickerDialog getPukul;
     ArrayList<String> jamTayangs;
     private SessionManager sesionManager;
+    private ProgressDialog progressDialog;
 
     int def;
     public ModalPesanTiket(Film film, Activity activity,String namaBioskop){
@@ -65,6 +67,7 @@ public class ModalPesanTiket extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modal_jumlah_film);
         jamTayangs = new ArrayList<>();
+        jamTayangs = getJamTayang();
         sesionManager = new SessionManager(activity.getApplicationContext());
 
         jumlahTiket = (EditText) findViewById(R.id.jumlah_tiket);
@@ -72,11 +75,21 @@ public class ModalPesanTiket extends Dialog {
         waktuAntar = (TextView)findViewById(R.id.jam_dialog_beli_tiket);
         jamtayang = (TextView)findViewById(R.id.jam_tayang);
         pesan = (Button)findViewById(R.id.btn_pesan_tiket);
+        batal = (Button)findViewById(R.id.btn_batal_tiket);
+
+        setCancelable(false);
+
+        batal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         jamtayang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jamTayangs = getJamTayang();
+
                 final String[] pilihan = new String[jamTayangs.size()];
 
                 for(int i=0;i<jamTayangs.size();i++){
@@ -124,6 +137,7 @@ public class ModalPesanTiket extends Dialog {
                                 Order order = new Order(namaBioskop,film.getNamaFilm()+"--"+jamtayang.getText().toString()+"-- "+jumlahTiket.getText().toString()+" tiket",
                                         waktuAntar.getText().toString(),alamatAntar.getText().toString());
                                 insertPesanan(order);
+                                showProgress();
                             }else{
                                 Toast.makeText(activity, "Lengkapi Isian", Toast.LENGTH_SHORT).show();
                             }
@@ -170,11 +184,12 @@ public class ModalPesanTiket extends Dialog {
             public void onResponse(String response) {
                 Log.d("__jam_tayang",response);
                 try{
-                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("respon");
                     if(jsonArray.length()!=0){
                         for(int i=0;i<jsonArray.length();i++){
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            jamTayangs.add(jsonObject.getString("jam_tayang"));
+                            JSONObject j = jsonArray.getJSONObject(i);
+                            jamTayangs.add(j.getString("jam_tayang"));
                         }
                     }
                 }catch (Exception e){
@@ -191,7 +206,7 @@ public class ModalPesanTiket extends Dialog {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> map = new HashMap<>();
                 map.put("kode","jam_tayang");
-                map.put("id_film","");
+                map.put("id_film",film.getIdFilm());
                 return map;
             }
         };
@@ -208,6 +223,7 @@ public class ModalPesanTiket extends Dialog {
                     JSONObject j = new JSONObject(response);
                     if(j.getString("status").equals("1")){
                         Toast.makeText(activity, "Berhasil pesan, tunggu konfirmasi dari kami", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                         dismiss();
                     }else{
                         Toast.makeText(activity, "Pesanan Gagal, mohon ulangi lagi", Toast.LENGTH_SHORT).show();
@@ -237,5 +253,15 @@ public class ModalPesanTiket extends Dialog {
             }
         };
         AppContoller.getInstance(activity.getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+
+    private void showProgress() {
+        progressDialog = null;// Initialize to null
+        progressDialog = new ProgressDialog(activity);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
     }
 }

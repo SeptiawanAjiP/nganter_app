@@ -15,10 +15,9 @@
             android:layout_height="150dp"
             android:background="@drawable/round_modal">
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:src="@drawable/contoh_foto"
                 android:id="@+id/foto_film"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"/>
@@ -32,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/film_nama"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#ffffff"
                 android:layout_centerInParent="true"/>

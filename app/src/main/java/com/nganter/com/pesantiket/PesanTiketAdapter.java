@@ -2,6 +2,7 @@ package com.nganter.com.pesantiket;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -14,7 +15,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.nganter.com.R;
+import com.nganter.com.handler.AppContoller;
 import com.nganter.com.objek.Film;
 
 import java.util.ArrayList;
@@ -27,9 +31,11 @@ public class PesanTiketAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Film> films;
     private Activity activity;
-    private ImageView filmFoto;
+    private NetworkImageView filmFoto;
     private TextView filmJudul;
     private String namaBioskop;
+    ImageLoader imageLoader;
+    ProgressDialog progressDialog;
     int def;
     PesanTiketAdapter(Context context, ArrayList<Film> films,Activity activity,String namaBioskop){
         this.context = context;
@@ -64,10 +70,12 @@ public class PesanTiketAdapter extends BaseAdapter {
             view = (View) convertView;
         }
 
-        filmFoto = (ImageView)view.findViewById(R.id.foto_film);
+        imageLoader = AppContoller.getInstance(activity.getApplicationContext()).getImageLoader();
+
+        filmFoto = (NetworkImageView) view.findViewById(R.id.foto_film);
         filmJudul = (TextView)view.findViewById(R.id.film_nama);
 
-        filmFoto.setImageResource(films.get(position).getDrawable());
+        filmFoto.setImageUrl(films.get(position).getPathFoto(),imageLoader);
         filmJudul.setText(films.get(position).getNamaFilm());
 
         view.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,7 @@ package com.nganter.com.pesanbarang;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class PesanBarang extends Dialog {
     private String keterangan;
     private EditText toko,pesanan,alamatAntar;
     private SessionManager sessionManager;
+    private ProgressDialog progressDialog;
     public PesanBarang(Activity activity,String keterangan){
         super(activity);
         this.activity =activity;
@@ -83,6 +85,7 @@ public class PesanBarang extends Dialog {
                                 Order order = new Order(toko.getText().toString(),pesanan.getText().toString(),waktuAntar.getText().toString(),
                                         alamatAntar.getText().toString());
                                 insertPesanan(order);
+                                showProgress();
                             }
                         }
                     }
@@ -135,6 +138,7 @@ public class PesanBarang extends Dialog {
                     JSONObject j = new JSONObject(response);
                     if(j.getString("status").equals("1")){
                         Toast.makeText(activity, "Berhasil pesan, tunggu konfirmasi dari kami", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                         dismiss();
                     }else{
                         Toast.makeText(activity, "Pesanan Gagal, mohon ulangi lagi", Toast.LENGTH_SHORT).show();
@@ -165,5 +169,14 @@ public class PesanBarang extends Dialog {
         };
 
         AppContoller.getInstance(activity.getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void showProgress() {
+        progressDialog = null;// Initialize to null
+        progressDialog = new ProgressDialog(activity);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
     }
 }
