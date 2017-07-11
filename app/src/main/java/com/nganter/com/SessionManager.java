@@ -2,6 +2,7 @@ package com.nganter.com;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.nganter.com.objek.User;
 
@@ -19,15 +20,6 @@ public class SessionManager {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("session",Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-    }
-
-    public void sudahKirim(){
-        editor.putString(KIRIM_DEVICE,SUDAH);
-        editor.commit();
-    }
-
-    public String getStatusKirim() {
-        return sharedPreferences.getString(KIRIM_DEVICE,null);
     }
 
     public void setSessionInstall(){
@@ -49,16 +41,6 @@ public class SessionManager {
         editor.commit();
     }
 
-    public void setAlamat(String alamat){
-        editor.putString("alamat",alamat);
-        editor.commit();
-    }
-
-    public String getAlamat(){
-        String alamat = sharedPreferences.getString("alamat",null);
-        return alamat;
-    }
-
     public User getUserAkun(){
         User user = new User();
 
@@ -66,22 +48,19 @@ public class SessionManager {
         user.setNama(sharedPreferences.getString("nama",null));
         user.setNo_telp(sharedPreferences.getString("telepon",null));
         user.setNo_wa(sharedPreferences.getString("wa",null));
-        user.setAlamat(sharedPreferences.getString("alamat",""));
+        user.setAlamat(sharedPreferences.getString("alamat",null));
+;
         return user;
     }
 
     public void deleteSession (){
-        sharedPreferences.edit().remove("email").commit();
-        sharedPreferences.edit().remove("nama").commit();
-        sharedPreferences.edit().remove("path_foto").commit();
-        sharedPreferences.edit().remove("telepon").commit();
         sharedPreferences.edit().remove("id").commit();
+        sharedPreferences.edit().remove("nama").commit();
+        sharedPreferences.edit().remove("telepon").commit();
+        sharedPreferences.edit().remove("wa").commit();
         sharedPreferences.edit().remove("alamat").commit();
 
     }
 
-    public void deleteToken(){
-        sharedPreferences.edit().remove("token").commit();
-    }
 
 }

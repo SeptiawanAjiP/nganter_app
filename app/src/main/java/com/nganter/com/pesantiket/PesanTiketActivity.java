@@ -53,17 +53,18 @@ public class PesanTiketActivity extends AppCompatActivity {
         }else{
             idBioskop=2;
         }
-        showProgress();
-        setData(idBioskop);
+
         expandGridView = (ExpandGridView)findViewById(R.id.grid_film);
         expandGridView.setExpanded(true);
         expandGridView.setFocusable(false);
+        setData(idBioskop);
+        Log.d("__film_arra",films.toString());
 
-        expandGridView.setAdapter(new PesanTiketAdapter(getApplicationContext(),films,PesanTiketActivity.this,getIntent().getStringExtra(BIOSKOP)));
     }
 
     public void setData(final int idBisokop){
         Log.d("jalan","kl");
+        showProgress();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -77,8 +78,11 @@ public class PesanTiketActivity extends AppCompatActivity {
                             Log.d("__film_1",jsonObject.toString());
                             Film film = new Film(jsonObject.getString("id_film"),jsonObject.getString("judul_film"),jsonObject.getString("path_foto"));
                             films.add(film);
-                            progressDialog.dismiss();
+                            Log.d("__film_arra_2",films.toString());
+
                         }
+                        expandGridView.setAdapter(new PesanTiketAdapter(getApplicationContext(),films,PesanTiketActivity.this,getIntent().getStringExtra(BIOSKOP)));
+                        progressDialog.dismiss();
                     }else {
                         Toast.makeText(PesanTiketActivity.this, "Tidak dapat load data, mohon ulangi lagi", Toast.LENGTH_SHORT).show();
                     }

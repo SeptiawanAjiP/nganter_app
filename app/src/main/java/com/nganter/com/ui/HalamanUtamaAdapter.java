@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nganter.com.SessionManager;
 import com.nganter.com.antarbarang.AntarBarang;
 import com.nganter.com.R;
 import com.nganter.com.hubungikami.HubungiKami;
@@ -33,7 +34,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
     private ArrayList<MenuUtama> menuUtamas;
     private Activity activity;
     int def;
-
+    private SessionManager sessionManager;
     public HalamanUtamaAdapter(Context context, ArrayList<MenuUtama> menuUtamas, Activity activity){
         this.context = context;
         this.menuUtamas = menuUtamas;
@@ -65,7 +66,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
         }else {
             view = (View) convertView;
         }
-
+        sessionManager = new SessionManager(activity.getApplicationContext());
         ImageView foto = (ImageView)view.findViewById(R.id.foto_menu_utama);
         TextView nama = (TextView)view.findViewById(R.id.nama_menu_utama);
 
@@ -121,8 +122,14 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                     Intent intent = new Intent(activity, HubungiKami.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(intent);
+                }else if(menuUtamas.get(position).getNama().equals("Akun")){
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intent);
+                    activity.finish();
+                    sessionManager.deleteSession();
                 }
-                Toast.makeText(context, menuUtamas.get(position).getNama(), Toast.LENGTH_SHORT).show();
+
             }
         });
         return view;

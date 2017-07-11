@@ -46,7 +46,7 @@ public class ModalPesanTiket extends Dialog {
     private EditText jumlahTiket,alamatAntar;
     private Button pesan,batal;
     private Activity activity;
-    private TextView waktuAntar,jamtayang;
+    private TextView waktuAntar,jamtayang,judulFilm;
     private String namaBioskop;
 
     private TimePickerDialog getPukul;
@@ -74,10 +74,12 @@ public class ModalPesanTiket extends Dialog {
         alamatAntar = (EditText)findViewById(R.id.alamat_antar_tiket);
         waktuAntar = (TextView)findViewById(R.id.jam_dialog_beli_tiket);
         jamtayang = (TextView)findViewById(R.id.jam_tayang);
+        judulFilm = (TextView)findViewById(R.id.judul_film);
         pesan = (Button)findViewById(R.id.btn_pesan_tiket);
         batal = (Button)findViewById(R.id.btn_batal_tiket);
 
         setCancelable(false);
+        judulFilm.setText(film.getNamaFilm());
 
         batal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +136,7 @@ public class ModalPesanTiket extends Dialog {
                     if(!jamtayang.getText().toString().isEmpty()){
                         if(!waktuAntar.getText().toString().isEmpty()){
                             if(!alamatAntar.getText().toString().isEmpty()){
-                                Order order = new Order(namaBioskop,film.getNamaFilm()+"--"+jamtayang.getText().toString()+"-- "+jumlahTiket.getText().toString()+" tiket",
+                                Order order = new Order(namaBioskop,"film : "+film.getNamaFilm()+",jam : "+jamtayang.getText().toString()+",jumlah : "+jumlahTiket.getText().toString()+" tiket",
                                         waktuAntar.getText().toString(),alamatAntar.getText().toString());
                                 insertPesanan(order);
                                 showProgress();
@@ -245,7 +247,10 @@ public class ModalPesanTiket extends Dialog {
                 maps.put("kode","pesanan");
                 maps.put("id_pelanggan",sesionManager.getUserAkun().getIdPelanggan());
                 maps.put("kategori","pesan_tiket");
-                maps.put("pesanan",order.getToko()+"--("+order.getPesanan()+")");
+                maps.put("pesanan",order.getToko()+
+                        "\n"+
+                        "\n"+
+                        order.getPesanan());
                 maps.put("jam_antar",order.getJamAntar());
                 maps.put("lokasi_antar",order.getJamAntar());
                 maps.put("nama_penerima",sesionManager.getUserAkun().getNama());

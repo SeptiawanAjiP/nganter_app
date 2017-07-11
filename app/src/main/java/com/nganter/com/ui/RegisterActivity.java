@@ -1,5 +1,6 @@
 package com.nganter.com.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import com.nganter.com.SessionManager;
 import com.nganter.com.handler.AppContoller;
 import com.nganter.com.koneksi.Alamat;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -37,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button button;
     private EditText username,email,password,telepon,alamat;
     SessionManager session;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +90,10 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 try{
                     JSONObject j = new JSONObject(response);
+                    Log.d("__daftar",j.toString());
                     if(j.getString("status").equals("1")){
-                        Toast.makeText(RegisterActivity.this, "Register Berhasil", Toast.LENGTH_LONG).show();
+                        showProgress();
+//                        Toast.makeText(RegisterActivity.this, "Register Berhasil", Toast.LENGTH_LONG).show();
                         login(email,password);
                     }else{
                         Toast.makeText(RegisterActivity.this, "Register Gagal", Toast.LENGTH_SHORT).show();
@@ -124,11 +129,19 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try{
-                    JSONObject j = new JSONObject(response);
+                    JSONObject js = new JSONObject(response);
+                    JSONArray jsonArray = js.getJSONArray("respon");
+                    Log.d("__login",jsonArray.toString());
+                    if(jsonArray.length()!=0){
+                        JSONObject j = jsonArray.getJSONObject(0);
                         session.createLoginSession(j.getString("id_pelanggan"),j.getString("alamat"),j.getString("username"),j.getString("no_telp"),j.getString("no_wa"));
                         Intent intent = new Intent(getApplicationContext(),HalamanUtama.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
+                        finish();
+                        progressDialog.dismiss();
+                    }
+
                 }catch (Exception e){
                 }
             }
@@ -149,5 +162,24 @@ public class RegisterActivity extends AppCompatActivity {
         };
 
         AppContoller.getInstance(getApplicationContext()).addToRequestQueue(string);
+    }
+
+    private void showProgress() {
+        progressDialog = null;// Initialize to null
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(this,LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        finish();
     }
 }

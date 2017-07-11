@@ -13,6 +13,7 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.nganter.com.R;
 import com.nganter.com.ui.HalamanUtama;
 import com.nganter.com.ui.LoginActivity;
+import com.nganter.com.ui.RegisterActivity;
 
 /**
  * Created by Septiawan Aji Pradan on 5/31/2017.
@@ -58,7 +59,7 @@ public class LandingPageActivity extends AppIntro2 {
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
         startActivity(intent);
         finish();
     }

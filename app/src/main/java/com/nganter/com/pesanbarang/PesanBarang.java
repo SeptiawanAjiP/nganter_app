@@ -160,7 +160,9 @@ public class PesanBarang extends Dialog {
                 maps.put("kode","pesanan");
                 maps.put("id_pelanggan",sessionManager.getUserAkun().getIdPelanggan());
                 maps.put("kategori",kategori);
-                maps.put("pesanan",order.getToko()+"--"+order.getPesanan());
+                maps.put("pesanan","Toko/Warung : "+order.getToko()+"" +
+                        "\n" +
+                        "Pesanan : "+order.getPesanan());
                 maps.put("jam_antar",order.getJamAntar());
                 maps.put("lokasi_antar",order.getJamAntar());
                 maps.put("nama_penerima",sessionManager.getUserAkun().getNama());
