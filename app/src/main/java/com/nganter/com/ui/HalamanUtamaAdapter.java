@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view;
+
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -67,6 +69,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
             view = (View) convertView;
         }
         sessionManager = new SessionManager(activity.getApplicationContext());
+        Log.d("_akun",sessionManager.getUserAkun().getNama());
         ImageView foto = (ImageView)view.findViewById(R.id.foto_menu_utama);
         TextView nama = (TextView)view.findViewById(R.id.nama_menu_utama);
 
@@ -123,11 +126,10 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(intent);
                 }else if(menuUtamas.get(position).getNama().equals("Akun")){
-                    Intent intent = new Intent(activity, LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    activity.startActivity(intent);
-                    activity.finish();
-                    sessionManager.deleteSession();
+                    ModalEditProfil cdd = new ModalEditProfil(activity);
+                    cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    cdd.show();
+
                 }
 
             }

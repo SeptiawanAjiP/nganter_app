@@ -77,7 +77,7 @@ public class ModalPesanTiket extends Dialog {
         judulFilm = (TextView)findViewById(R.id.judul_film);
         pesan = (Button)findViewById(R.id.btn_pesan_tiket);
         batal = (Button)findViewById(R.id.btn_batal_tiket);
-
+        alamatAntar.setText(sesionManager.getUserAkun().getAlamat());
         setCancelable(false);
         judulFilm.setText(film.getNamaFilm());
 
@@ -249,10 +249,10 @@ public class ModalPesanTiket extends Dialog {
                 maps.put("kategori","pesan_tiket");
                 maps.put("pesanan",order.getToko()+
                         "\n"+
-                        "\n"+
+                        "\n,"+
                         order.getPesanan());
                 maps.put("jam_antar",order.getJamAntar());
-                maps.put("lokasi_antar",order.getJamAntar());
+                maps.put("lokasi_antar",order.getAlamatAntar());
                 maps.put("nama_penerima",sesionManager.getUserAkun().getNama());
                 return maps;
             }

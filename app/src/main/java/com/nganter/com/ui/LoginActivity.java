@@ -1,5 +1,6 @@
 package com.nganter.com.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView textView;
     private SessionManager session;
     private EditText email,password;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(final String email,  final String password){
+        showProgress();
         StringRequest string = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -90,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(),HalamanUtama.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                            finish();
+                            progressDialog.dismiss();
                         }
                     }else{
                         Toast.makeText(LoginActivity.this, "Login Gagal", Toast.LENGTH_SHORT).show();
@@ -116,5 +121,13 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         AppContoller.getInstance(getApplicationContext()).addToRequestQueue(string);
+    }
+    private void showProgress() {
+        progressDialog = null;// Initialize to null
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
     }
 }

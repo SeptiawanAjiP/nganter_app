@@ -68,6 +68,7 @@ public class PesanBarang extends Dialog {
         pesanan = (EditText)findViewById(R.id.keterangan_order);
         alamatAntar = (EditText)findViewById(R.id.alamat_order);
         waktuAntar = (TextView)findViewById(R.id.jam_dialog);
+        alamatAntar.setText(sessionManager.getUserAkun().getAlamat());
         getWaktu();
         waktuAntar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,9 +163,9 @@ public class PesanBarang extends Dialog {
                 maps.put("kategori",kategori);
                 maps.put("pesanan","Toko/Warung : "+order.getToko()+"" +
                         "\n" +
-                        "Pesanan : "+order.getPesanan());
+                        ",Pesanan : "+order.getPesanan());
                 maps.put("jam_antar",order.getJamAntar());
-                maps.put("lokasi_antar",order.getJamAntar());
+                maps.put("lokasi_antar",order.getAlamatAntar());
                 maps.put("nama_penerima",sessionManager.getUserAkun().getNama());
                 return maps;
             }
