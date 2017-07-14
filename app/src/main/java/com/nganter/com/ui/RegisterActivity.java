@@ -85,6 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void daftar(final String nama, final String email, final String password, final String no_telp,final String alamat){
+        showProgress();
         StringRequest string = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -92,11 +93,13 @@ public class RegisterActivity extends AppCompatActivity {
                     JSONObject j = new JSONObject(response);
                     Log.d("__daftar",j.toString());
                     if(j.getString("status").equals("1")){
-                        showProgress();
+
 //                        Toast.makeText(RegisterActivity.this, "Register Berhasil", Toast.LENGTH_LONG).show();
                         login(email,password);
+                        progressDialog.dismiss();
                     }else{
                         Toast.makeText(RegisterActivity.this, "Register Gagal", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                     }
                 }catch (Exception e){
                 }

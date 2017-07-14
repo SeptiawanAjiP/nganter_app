@@ -13,7 +13,7 @@ import android.view.View;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.nganter.com.landingpage.LandingPageActivity;
+import com.nganter.com.landingpage.WelcomeActivity;
 import com.nganter.com.ui.HalamanUtama;
 import com.nganter.com.ui.LoginActivity;
 
@@ -54,7 +54,7 @@ public class SplashScreen extends AppCompatActivity {
         Thread splash = new Thread(){
             public void run(){
                 try{
-                    sleep(1500);
+                    sleep(2000);
 
 //                    if(sm.getFirstInstall()!=null){
 //                        if (adaKoneksi()){
@@ -105,21 +105,17 @@ public class SplashScreen extends AppCompatActivity {
 //                        finish();
 //                    }
 
-                    if(sessionManager.getInstallStatus()==null){
-                        Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else{
+
                         if(sessionManager.getUserAkun().getNo_wa()!=null){
                             Intent intent = new Intent(getApplicationContext(), HalamanUtama.class);
                             startActivity(intent);
                             finish();
                         }else{
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
                             startActivity(intent);
                             finish();
                         }
-                    }
+
 
                 }catch (InterruptedException e){
                     e.printStackTrace();
