@@ -1,71 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="7dp"
-    android:layout_marginRight="7dp">
-    <ScrollView
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#131925">
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="250dp"
-                android:layout_marginTop="8dp"
-                android:layout_height="120dp"
-                android:src="@drawable/logo_nganter"
-                android:layout_gravity="center_horizontal"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000"
-                android:layout_marginBottom="2dp"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000" />
+            android:scrollbars="none"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:background="@color/orange">
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/logo_nganter"
+                    android:layout_gravity="center_horizontal"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/strip"/>
+                </LinearLayout>
+
+                <com.nganter.com.ui.ExpandGridView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fff"
+                    android:numColumns="auto_fit"
+                    android:id="@+id/grid_menu_utama"
+                    android:nestedScrollingEnabled="true"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:text="Mengantar sampai di depan pintu Anda"/>
+                    android:layout_marginBottom="10dp"
+                    android:horizontalSpacing="3dp"
+                    android:verticalSpacing="3dp"></com.nganter.com.ui.ExpandGridView>
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000"
-                android:layout_marginBottom="2dp"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#000"
-                android:layout_marginBottom="8dp"/>
-            <com.nganter.com.ui.ExpandGridView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:numColumns="auto_fit"
-                android:id="@+id/grid_menu_utama"
-                android:nestedScrollingEnabled="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginBottom="10dp"
-                android:horizontalSpacing="3dp"
-                android:verticalSpacing="3dp"></com.nganter.com.ui.ExpandGridView>
-        </LinearLayout>
-    </ScrollView>
+
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#1a222f"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="nganter.com 2017. v 1.0"/>
+    </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

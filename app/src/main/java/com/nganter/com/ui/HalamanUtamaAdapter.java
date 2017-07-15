@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view;
 
+
         Log.d("__status",status);
 
         if(convertView == null){
@@ -75,91 +77,82 @@ public class HalamanUtamaAdapter extends BaseAdapter {
             view = (View) convertView;
         }
         sessionManager = new SessionManager(activity.getApplicationContext());
-        Log.d("_akun",sessionManager.getUserAkun().getNama());
-        ImageView foto = (ImageView)view.findViewById(R.id.foto_menu_utama);
+
         TextView nama = (TextView)view.findViewById(R.id.nama_menu_utama);
-
-        foto.setImageResource(menuUtamas.get(position).getDrawabel());
+        ImageView icon = (ImageView)view.findViewById(R.id.icon);
+        RelativeLayout t = (RelativeLayout)view.findViewById(R.id.relative);
+        icon.setImageResource(menuUtamas.get(position).getDrawabel());
         nama.setText(menuUtamas.get(position).getNama());
-
-
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(status.equals(HalamanUtama.TUTUP)){
-                    Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
-                }else{
-                    if(menuUtamas.get(position).getNama().equals("Pesan Tiket")){
-                        if(status.equals(HalamanUtama.TUTUP)){
-                            Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
-                        }else{
-                            final String[] pilihan = {"Rajawali","CGV Rita Mall"};
-                            def = 0;
-                            AlertDialog dialog = new AlertDialog.Builder(activity)
-                                    .setTitle("Pilih Bioskop")
-                                    .setSingleChoiceItems(pilihan, 0,  new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            def = which;
-                                        }
-                                    })
-                                    .setPositiveButton("Pilih", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent = new Intent(activity,PesanTiketActivity.class);
-                                            intent.putExtra(PesanTiketActivity.BIOSKOP,pilihan[def]);
+                Log.d("_akun",sessionManager.getUserAkun().getNama());
+                if(menuUtamas.get(position).getNama().equals("TIKET BIOSKOP")){
+                    if(status.equals(HalamanUtama.TUTUP)){
+                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                    }else{
+                        final String[] pilihan = {"Rajawali","CGV Rita Mall"};
+                        def = 0;
+                        AlertDialog dialog = new AlertDialog.Builder(activity)
+                                .setTitle("Pilih Bioskop")
+                                .setSingleChoiceItems(pilihan, 0,  new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        def = which;
+                                    }
+                                })
+                                .setPositiveButton("Pilih", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(activity,PesanTiketActivity.class);
+                                        intent.putExtra(PesanTiketActivity.BIOSKOP,pilihan[def]);
 
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            activity.startActivity(intent);
-                                        }
-                                    })
-                                    .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        activity.startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                        }
-                                    }).create();
-                            dialog.show();
-                        }
-                    }else if(menuUtamas.get(position).getNama().equals("Pesan Makanan")){
-                        if(status.equals(HalamanUtama.TUTUP)){
-                            Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
-                        }else{
-                            PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan");
-                            cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            cdd.show();
-                        }
-                    }else if(menuUtamas.get(position).getNama().equals("Antar Barang")){
-                        if(status.equals(HalamanUtama.TUTUP)){
-                            Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
-                        }else{
-                            AntarBarang cdd = new AntarBarang(activity);
-                            cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            cdd.show();
-                        }
-                    }else if(menuUtamas.get(position).getNama().equals("Beli Barang")) {
-                        if(status.equals(HalamanUtama.TUTUP)){
-                            Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
-                        }else{
-                            PesanBarang cdd = new PesanBarang(activity, "Beli Barang");
-                            cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            cdd.show();
-                        }
-                    }else if(menuUtamas.get(position).getNama().equals("Kontak Kami")){
-                        Intent intent = new Intent(activity, HubungiKami.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.startActivity(intent);
-                    }else if(menuUtamas.get(position).getNama().equals("Akun")){
-                        ModalEditProfil cdd = new ModalEditProfil(activity);
+                                    }
+                                }).create();
+                        dialog.show();
+                    }
+                }else if(menuUtamas.get(position).getNama().equals("BELI MAKAN")){
+                    if(status.equals(HalamanUtama.TUTUP)){
+                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                    }else{
+                        PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan");
                         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         cdd.show();
                     }
+                }else if(menuUtamas.get(position).getNama().equals("NGANTER BARANG")){
+                    if(status.equals(HalamanUtama.TUTUP)){
+                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                    }else{
+                        AntarBarang cdd = new AntarBarang(activity);
+                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        cdd.show();
+                    }
+                }else if(menuUtamas.get(position).getNama().equals("BELANJA")) {
+                    if(status.equals(HalamanUtama.TUTUP)){
+                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                    }else{
+                        PesanBarang cdd = new PesanBarang(activity, "Beli Barang");
+                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        cdd.show();
+                    }
+                }else if(menuUtamas.get(position).getNama().equals("KONTAK")){
+                    Intent intent = new Intent(activity, HubungiKami.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intent);
+                }else if(menuUtamas.get(position).getNama().equals("AKUN")){
+                    ModalEditProfil cdd = new ModalEditProfil(activity);
+                    cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    cdd.show();
                 }
-
-
-
-
             }
         });
         return view;

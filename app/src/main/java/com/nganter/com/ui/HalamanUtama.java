@@ -84,22 +84,22 @@ public class HalamanUtama extends AppCompatActivity {
 
     public void setData(){
         menuUtamas = new ArrayList<>();
-        MenuUtama menuUtama = new MenuUtama("Pesan Makanan",R.drawable.pesan_makanan);
+        MenuUtama menuUtama = new MenuUtama("BELI MAKAN",R.drawable.ic_beli_makan);
         menuUtamas.add(menuUtama);
 
-        menuUtama = new MenuUtama("Antar Barang",R.drawable.antar_barang);
+        menuUtama = new MenuUtama("NGANTER BARANG",R.drawable.ic_antar_barang);
         menuUtamas.add(menuUtama);
 
-        menuUtama = new MenuUtama("Beli Barang",R.drawable.beli_barang);
+        menuUtama = new MenuUtama("BELANJA",R.drawable.ic_beli_barang);
         menuUtamas.add(menuUtama);
 
-        menuUtama = new MenuUtama("Pesan Tiket",R.drawable.pesan_tiket);
+        menuUtama = new MenuUtama("TIKET BIOSKOP",R.drawable.ic_ticket);
         menuUtamas.add(menuUtama);
 
-        menuUtama = new MenuUtama("Kontak Kami",R.drawable.kontak_kami);
+        menuUtama = new MenuUtama("KONTAK",R.drawable.ic_contact);
         menuUtamas.add(menuUtama);
 
-        menuUtama = new MenuUtama("Akun",R.drawable.akun);
+        menuUtama = new MenuUtama("AKUN",R.drawable.ic_akun);
         menuUtamas.add(menuUtama);
     }
     private void showProgress() {
