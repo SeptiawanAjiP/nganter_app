@@ -91,58 +91,73 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                     Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
                 }else{
                     if(menuUtamas.get(position).getNama().equals("Pesan Tiket")){
+                        if(status.equals(HalamanUtama.TUTUP)){
+                            Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                        }else{
+                            final String[] pilihan = {"Rajawali","CGV Rita Mall"};
+                            def = 0;
+                            AlertDialog dialog = new AlertDialog.Builder(activity)
+                                    .setTitle("Pilih Bioskop")
+                                    .setSingleChoiceItems(pilihan, 0,  new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            def = which;
+                                        }
+                                    })
+                                    .setPositiveButton("Pilih", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent intent = new Intent(activity,PesanTiketActivity.class);
+                                            intent.putExtra(PesanTiketActivity.BIOSKOP,pilihan[def]);
 
-                        final String[] pilihan = {"Rajawali","CGV Rita Mall"};
-                        def = 0;
-                        AlertDialog dialog = new AlertDialog.Builder(activity)
-                                .setTitle("Pilih Bioskop")
-                                .setSingleChoiceItems(pilihan, 0,  new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        def = which;
-                                    }
-                                })
-                                .setPositiveButton("Pilih", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(activity,PesanTiketActivity.class);
-                                        intent.putExtra(PesanTiketActivity.BIOSKOP,pilihan[def]);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            activity.startActivity(intent);
+                                        }
+                                    })
+                                    .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
 
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        activity.startActivity(intent);
-                                    }
-                                })
-                                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                }).create();
-                        dialog.show();
+                                        }
+                                    }).create();
+                            dialog.show();
+                        }
                     }else if(menuUtamas.get(position).getNama().equals("Pesan Makanan")){
-                        PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan");
-                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        cdd.show();
+                        if(status.equals(HalamanUtama.TUTUP)){
+                            Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                        }else{
+                            PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan");
+                            cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            cdd.show();
+                        }
                     }else if(menuUtamas.get(position).getNama().equals("Antar Barang")){
-                        AntarBarang cdd = new AntarBarang(activity);
-                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        cdd.show();
+                        if(status.equals(HalamanUtama.TUTUP)){
+                            Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                        }else{
+                            AntarBarang cdd = new AntarBarang(activity);
+                            cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            cdd.show();
+                        }
                     }else if(menuUtamas.get(position).getNama().equals("Beli Barang")) {
-                        PesanBarang cdd = new PesanBarang(activity, "Beli Barang");
+                        if(status.equals(HalamanUtama.TUTUP)){
+                            Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                        }else{
+                            PesanBarang cdd = new PesanBarang(activity, "Beli Barang");
+                            cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            cdd.show();
+                        }
+                    }else if(menuUtamas.get(position).getNama().equals("Kontak Kami")){
+                        Intent intent = new Intent(activity, HubungiKami.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(intent);
+                    }else if(menuUtamas.get(position).getNama().equals("Akun")){
+                        ModalEditProfil cdd = new ModalEditProfil(activity);
                         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         cdd.show();
                     }
                 }
 
-                if(menuUtamas.get(position).getNama().equals("Kontak Kami")){
-                    Intent intent = new Intent(activity, HubungiKami.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    activity.startActivity(intent);
-                }else if(menuUtamas.get(position).getNama().equals("Akun")){
-                    ModalEditProfil cdd = new ModalEditProfil(activity);
-                    cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    cdd.show();
-                }
+
 
 
             }
