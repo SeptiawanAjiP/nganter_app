@@ -34,12 +34,16 @@ public class HalamanUtamaAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<MenuUtama> menuUtamas;
     private Activity activity;
+    String status;
     int def;
     private SessionManager sessionManager;
-    public HalamanUtamaAdapter(Context context, ArrayList<MenuUtama> menuUtamas, Activity activity){
+    public HalamanUtamaAdapter(Context context, ArrayList<MenuUtama> menuUtamas, Activity activity,String status){
         this.context = context;
         this.menuUtamas = menuUtamas;
         this.activity = activity;
+        this.status = status;
+
+        Log.d("__status",status);
     }
 
     @Override
@@ -61,6 +65,8 @@ public class HalamanUtamaAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view;
 
+        Log.d("__status",status);
+
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -77,51 +83,58 @@ public class HalamanUtamaAdapter extends BaseAdapter {
         nama.setText(menuUtamas.get(position).getNama());
 
 
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(menuUtamas.get(position).getNama().equals("Pesan Tiket")){
+                if(status.equals(HalamanUtama.TUTUP)){
+                    Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                }else{
+                    if(menuUtamas.get(position).getNama().equals("Pesan Tiket")){
 
-                    final String[] pilihan = {"Rajawali","CGV Rita Mall"};
-                    def = 0;
-                    AlertDialog dialog = new AlertDialog.Builder(activity)
-                            .setTitle("Pilih Bioskop")
-                            .setSingleChoiceItems(pilihan, 0,  new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    def = which;
-                                }
-                            })
-                            .setPositiveButton("Pilih", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(activity,PesanTiketActivity.class);
-                                    intent.putExtra(PesanTiketActivity.BIOSKOP,pilihan[def]);
+                        final String[] pilihan = {"Rajawali","CGV Rita Mall"};
+                        def = 0;
+                        AlertDialog dialog = new AlertDialog.Builder(activity)
+                                .setTitle("Pilih Bioskop")
+                                .setSingleChoiceItems(pilihan, 0,  new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        def = which;
+                                    }
+                                })
+                                .setPositiveButton("Pilih", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(activity,PesanTiketActivity.class);
+                                        intent.putExtra(PesanTiketActivity.BIOSKOP,pilihan[def]);
 
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    activity.startActivity(intent);
-                                }
-                            })
-                            .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        activity.startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                }
-                            }).create();
-                    dialog.show();
-                }else if(menuUtamas.get(position).getNama().equals("Pesan Makanan")){
-                    PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan");
-                    cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    cdd.show();
-                }else if(menuUtamas.get(position).getNama().equals("Antar Barang")){
-                    AntarBarang cdd = new AntarBarang(activity);
-                    cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    cdd.show();
-                }else if(menuUtamas.get(position).getNama().equals("Beli Barang")) {
-                    PesanBarang cdd = new PesanBarang(activity, "Beli Barang");
-                    cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    cdd.show();
-                }else if(menuUtamas.get(position).getNama().equals("Kontak Kami")){
+                                    }
+                                }).create();
+                        dialog.show();
+                    }else if(menuUtamas.get(position).getNama().equals("Pesan Makanan")){
+                        PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan");
+                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        cdd.show();
+                    }else if(menuUtamas.get(position).getNama().equals("Antar Barang")){
+                        AntarBarang cdd = new AntarBarang(activity);
+                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        cdd.show();
+                    }else if(menuUtamas.get(position).getNama().equals("Beli Barang")) {
+                        PesanBarang cdd = new PesanBarang(activity, "Beli Barang");
+                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        cdd.show();
+                    }
+                }
+
+                if(menuUtamas.get(position).getNama().equals("Kontak Kami")){
                     Intent intent = new Intent(activity, HubungiKami.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(intent);
@@ -129,8 +142,8 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                     ModalEditProfil cdd = new ModalEditProfil(activity);
                     cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     cdd.show();
-
                 }
+
 
             }
         });

@@ -139,6 +139,7 @@ public class ModalPesanTiket extends Dialog {
                                 Order order = new Order(namaBioskop,"film : "+film.getNamaFilm()+",jam : "+jamtayang.getText().toString()+",jumlah : "+jumlahTiket.getText().toString()+" tiket",
                                         waktuAntar.getText().toString(),alamatAntar.getText().toString());
                                 insertPesanan(order);
+                                inserDatabase(order);
                                 showProgress();
                             }else{
                                 Toast.makeText(activity, "Lengkapi Isian", Toast.LENGTH_SHORT).show();
@@ -254,6 +255,33 @@ public class ModalPesanTiket extends Dialog {
                 maps.put("jam_antar",order.getJamAntar());
                 maps.put("lokasi_antar",order.getAlamatAntar());
                 maps.put("nama_penerima",sesionManager.getUserAkun().getNama());
+                return maps;
+            }
+        };
+        AppContoller.getInstance(activity.getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public void inserDatabase(final Order order){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("__database_tiket",response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> maps = new HashMap<>();
+                maps.put("kode","beli_tiket");
+                maps.put("id_pelanggan",sesionManager.getUserAkun().getIdPelanggan());
+                maps.put("bioskop",namaBioskop);
+                maps.put("id_film",film.getIdFilm());
+                maps.put("jam_tayang",jamtayang.getText().toString());
+                maps.put("jumlah",jumlahTiket.getText().toString());
                 return maps;
             }
         };

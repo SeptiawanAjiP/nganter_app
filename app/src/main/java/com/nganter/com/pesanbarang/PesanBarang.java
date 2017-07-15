@@ -86,6 +86,7 @@ public class PesanBarang extends Dialog {
                                 Order order = new Order(toko.getText().toString(),pesanan.getText().toString(),waktuAntar.getText().toString(),
                                         alamatAntar.getText().toString());
                                 insertPesanan(order);
+                                insertDatabase(order);
                                 showProgress();
                             }
                         }
@@ -171,6 +172,35 @@ public class PesanBarang extends Dialog {
             }
         };
 
+        AppContoller.getInstance(activity.getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public void insertDatabase(final Order order){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+               Log.d("_beli_makan_barang",response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> maps = new HashMap<>();
+                maps.put("kode","beli_makan_barang");
+                maps.put("id_pelanggan",sessionManager.getUserAkun().getIdPelanggan());
+                maps.put("toko",order.getToko());
+                maps.put("barang",order.getPesanan());
+                maps.put("jam_antar",order.getJamAntar());
+                maps.put("lokasi_antar",order.getAlamatAntar());
+                maps.put("nama_penerima",sessionManager.getUserAkun().getNama());
+                return maps;
+            }
+        };
         AppContoller.getInstance(activity.getApplicationContext()).addToRequestQueue(stringRequest);
     }
 

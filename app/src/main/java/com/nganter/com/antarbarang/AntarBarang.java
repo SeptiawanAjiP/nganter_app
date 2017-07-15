@@ -79,6 +79,7 @@ public class AntarBarang extends Dialog {
                                 Order order = new Order(alamatAmbil.getText().toString(),jenisBarang.getText().toString(),waktuAntar.getText().toString(),
                                         alamatAntar.getText().toString());
                                 insertPesanan(order);
+                                insertDatabase(order);
                                 showProgress();
                             }
                         }
@@ -162,6 +163,37 @@ public class AntarBarang extends Dialog {
 
         AppContoller.getInstance(activity.getApplicationContext()).addToRequestQueue(stringRequest);
     }
+
+    public void insertDatabase(final Order order){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("__database_pesan_barang",response);
+                            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> maps = new HashMap<>();
+                maps.put("kode","kirim_barang");
+                maps.put("id_pelanggan",sessionManager.getUserAkun().getIdPelanggan());
+                maps.put("alamat_jemput",alamatAmbil.getText().toString());
+                maps.put("alamat_tujuan",alamatAntar.getText().toString());
+                maps.put("jenis_barang",jenisBarang.getText().toString());
+                maps.put("waktu_antar",waktuAntar.getText().toString());
+                maps.put("nama_penerima",sessionManager.getUserAkun().getNama());
+                return maps;
+            }
+        };
+
+        AppContoller.getInstance(activity.getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
 
     private void showProgress() {
         progressDialog = null;// Initialize to null
