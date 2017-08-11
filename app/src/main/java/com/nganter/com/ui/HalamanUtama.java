@@ -1,11 +1,18 @@
 package com.nganter.com.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -16,6 +23,7 @@ import com.nganter.com.R;
 import com.nganter.com.SessionManager;
 import com.nganter.com.handler.AppContoller;
 import com.nganter.com.koneksi.Alamat;
+import com.nganter.com.landingpage.WelcomeActivity;
 import com.nganter.com.objek.MenuUtama;
 
 import org.json.JSONArray;
@@ -36,6 +44,7 @@ public class HalamanUtama extends AppCompatActivity {
     String status;
     public static final String BUKA = "buka";
     public static final String TUTUP = "tutup";
+    private LinearLayout petunjuk;
     ProgressDialog progressDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,11 +53,26 @@ public class HalamanUtama extends AppCompatActivity {
         sessionManager = new SessionManager(getApplicationContext());
         sessionManager.setSessionInstall();
         expandGridView = (ExpandGridView)findViewById(R.id.grid_menu_utama);
+        petunjuk = (LinearLayout)findViewById(R.id.petunjuk);
         expandGridView.setExpanded(true);
         expandGridView.setFocusable(false);
         setData();
-        cekBukaTutup();
-        showProgress();
+        if(adaKoneksi()){
+            cekBukaTutup();
+            showProgress();
+        }else{
+            Toast.makeText(getApplicationContext(), "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+        }
+
+        petunjuk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     public void cekBukaTutup(){
@@ -109,5 +133,10 @@ public class HalamanUtama extends AppCompatActivity {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(true);
         progressDialog.show();
+    }
+
+    public boolean adaKoneksi() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 }

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +18,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.nganter.com.SessionManager;
 import com.nganter.com.antarbarang.AntarBarang;
 import com.nganter.com.R;
+import com.nganter.com.handler.AppContoller;
 import com.nganter.com.hubungikami.HubungiKami;
+import com.nganter.com.koneksi.Alamat;
 import com.nganter.com.objek.MenuUtama;
 import com.nganter.com.pesanbarang.PesanBarang;
 import com.nganter.com.pesantiket.PesanTiketActivity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Septiawan Aji Pradan on 6/14/2017.
@@ -89,61 +102,57 @@ public class HalamanUtamaAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.d("_akun",sessionManager.getUserAkun().getNama());
                 if(menuUtamas.get(position).getNama().equals("TIKET BIOSKOP")){
-                    if(status.equals(HalamanUtama.TUTUP)){
-                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
-                    }else{
-                        final String[] pilihan = {"Rajawali","CGV Rita Mall"};
-                        def = 0;
-                        AlertDialog dialog = new AlertDialog.Builder(activity)
-                                .setTitle("Pilih Bioskop")
-                                .setSingleChoiceItems(pilihan, 0,  new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        def = which;
-                                    }
-                                })
-                                .setPositiveButton("Pilih", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(activity,PesanTiketActivity.class);
-                                        intent.putExtra(PesanTiketActivity.BIOSKOP,pilihan[def]);
-
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        activity.startActivity(intent);
-                                    }
-                                })
-                                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                }).create();
-                        dialog.show();
-                    }
+                    Toast.makeText(activity, "Layanan ini akan hadir dalam waktu dekat", Toast.LENGTH_SHORT).show();
+//                    if(status.equals(HalamanUtama.TUTUP)){
+//                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+//                    }else{
+//                        final String[] pilihan = {"Rajawali","CGV Rita Mall"};
+//                        def = 0;
+//                        AlertDialog dialog = new AlertDialog.Builder(activity)
+//                                .setTitle("Pilih Bioskop")
+//                                .setSingleChoiceItems(pilihan, 0,  new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        def = which;
+//                                    }
+//                                })
+//                                .setPositiveButton("Pilih", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        Intent intent = new Intent(activity,PesanTiketActivity.class);
+//                                        intent.putExtra(PesanTiketActivity.BIOSKOP,pilihan[def]);
+//
+//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                        activity.startActivity(intent);
+//                                    }
+//                                })
+//                                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//
+//                                    }
+//                                }).create();
+//                        dialog.show();
+//                    }
                 }else if(menuUtamas.get(position).getNama().equals("BELI MAKAN")){
-                    if(status.equals(HalamanUtama.TUTUP)){
-                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                    if(adaKoneksi()){
+                        cekBukaTutup("beli_makan");
                     }else{
-                        PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan");
-                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        cdd.show();
+                        Toast.makeText(context, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
                     }
+
                 }else if(menuUtamas.get(position).getNama().equals("NGANTER BARANG")){
-                    if(status.equals(HalamanUtama.TUTUP)){
-                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
-                    }else{
-                        AntarBarang cdd = new AntarBarang(activity);
-                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        cdd.show();
-                    }
+                   if(adaKoneksi()){
+                       cekBukaTutup("antar_barang");
+                   }else{
+                       Toast.makeText(context, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+                   }
                 }else if(menuUtamas.get(position).getNama().equals("BELANJA")) {
-                    if(status.equals(HalamanUtama.TUTUP)){
-                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
-                    }else{
-                        PesanBarang cdd = new PesanBarang(activity, "Beli Barang");
-                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        cdd.show();
-                    }
+                   if(adaKoneksi()){
+                       cekBukaTutup("belanja");
+                   }else{
+                       Toast.makeText(context, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+                   }
                 }else if(menuUtamas.get(position).getNama().equals("KONTAK")){
                     Intent intent = new Intent(activity, HubungiKami.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -157,4 +166,56 @@ public class HalamanUtamaAdapter extends BaseAdapter {
         });
         return view;
     }
+
+    public void cekBukaTutup(final String jenisLayanan){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("__buka_tutup",response);
+                try{
+                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    status = jsonObject.getString("status");
+                    if(status.equals("buka")){
+                        if(jenisLayanan.equals("beli_makan")){
+                            PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan");
+                            cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            cdd.show();
+                        }else if(jenisLayanan.equals("antar_barang")){
+                            AntarBarang cdd = new AntarBarang(activity);
+                            cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            cdd.show();
+                        }else if(jenisLayanan.equals("belanja")){
+                            PesanBarang cdd = new PesanBarang(activity, "Beli Barang");
+                            cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            cdd.show();
+                        }
+                    }else{
+                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
+                    }
+                }catch (Exception e){
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map = new HashMap<>();
+                map.put("kode","cek_buka_tutup");
+                return map;
+            }
+        };
+        AppContoller.getInstance(activity.getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public boolean adaKoneksi() {
+        ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
+
 }

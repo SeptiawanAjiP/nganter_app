@@ -56,54 +56,6 @@ public class SplashScreen extends AppCompatActivity {
                 try{
                     sleep(2000);
 
-//                    if(sm.getFirstInstall()!=null){
-//                        if (adaKoneksi()){
-//                            if(sm.getStatusKirim()==null){
-//                                StringRequest login = new StringRequest(Request.Method.POST, AlamatServer.getAlamatServer()+ FixApiMethod.getKirimDeviceToken(), new Response.Listener<String>(){
-//                                    @Override
-//                                    public void onResponse(String response) {
-//                                        try {
-//                                            JSONObject jsonObject = new JSONObject(response.toString());
-//                                            Log.d("device_token_first",jsonObject.getString("status"));
-//                                            sm.sudahKirim();
-//                                            Log.d("device_token_status",sm.getStatusKirim());
-//                                        } catch (JSONException e) {
-//                                            e.printStackTrace();
-//                                            Log.d("error", e.toString());
-//                                        }
-//                                    }
-//                                }, new Response.ErrorListener() {
-//                                    @Override
-//                                    public void onErrorResponse(VolleyError error) {
-//
-//                                    }
-//                                }) {
-//                                    @Override
-//                                    protected Map<String, String> getParams() throws AuthFailureError {
-//                                        Map<String, String> param = new HashMap<String, String>();
-//                                        param.put("device_token",sm.getDeviceToken());
-//                                        return param;
-//                                    }
-//                                };
-//                                queue.add(login);
-//                            }else{
-//                                Log.d("device_token_status",sm.getStatusKirim());
-//                            }
-//                            Intent intent = new Intent(getApplicationContext(), Homepage.class);
-//                            startActivity(intent);
-//                            finish();
-//                        }else {
-//                            Intent intent = new Intent(getApplicationContext(), TidakAdaKoneksi.class);
-//                            startActivity(intent);
-//                            finish();
-//                        }
-//
-//
-//                    }else{
-//                        Intent intent = new Intent(getApplicationContext(), WelcomScreen.class);
-//                        startActivity(intent);
-//                        finish();
-//                    }
 
 
                         if(sessionManager.getUserAkun().getNo_wa()!=null){

@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nganter.com.R;
+import com.nganter.com.SessionManager;
+import com.nganter.com.ui.HalamanUtama;
 import com.nganter.com.ui.LoginActivity;
 
 
@@ -30,6 +32,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private TextView[] dots;
     private int[] layouts;
     private Button btnSkip, btnNext;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,8 @@ public class WelcomeActivity extends AppCompatActivity {
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
+
+        sessionManager = new SessionManager(getApplicationContext());
 
 
         // layouts of all welcome sliders
@@ -114,10 +119,16 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
-        intent.putExtra("isFirst",true);
-        startActivity(intent);
-        finish();
+        if(sessionManager.getUserAkun().getNo_wa()!=null){
+            Intent intent = new Intent(getApplicationContext(), HalamanUtama.class);
+            startActivity(intent);
+            finish();
+        }else{
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     //  viewpager change listener

@@ -42,9 +42,32 @@
                     android:nestedScrollingEnabled="true"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:horizontalSpacing="3dp"
                     android:verticalSpacing="3dp"></com.nganter.com.ui.ExpandGridView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:id="@+id/petunjuk"
+                    android:layout_gravity="center"
+                    android:background="#212936">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Petunjuk"
+                        android:textColor="#fff"/>
+                </LinearLayout>
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Petunjuk"-->
+                    <!--android:id="@+id/petunjuk"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:textColor="#fff"-->
+                    <!--android:background="@drawable/ico_rounded"-->
+                    <!--android:padding="7dp"/>-->
             </LinearLayout>
 
         </ScrollView>

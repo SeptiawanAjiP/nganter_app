@@ -1,7 +1,9 @@
 package com.nganter.com.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -61,10 +63,15 @@ public class RegisterActivity extends AppCompatActivity {
                         if(!password.getText().toString().isEmpty()){
                                 if(!telepon.getText().toString().isEmpty()){
                                     if(!alamat.getText().toString().isEmpty()){
-                                        daftar(username.getText().toString()
-                                                ,email.getText().toString()
-                                                ,password.getText().toString()
-                                                ,telepon.getText().toString(),alamat.getText().toString());
+                                        if(adaKoneksi()){
+                                            daftar(username.getText().toString()
+                                                    ,email.getText().toString()
+                                                    ,password.getText().toString()
+                                                    ,telepon.getText().toString(),alamat.getText().toString());
+                                        }else{
+                                            Toast.makeText(RegisterActivity.this, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+                                        }
+
                                     }else{
                                         Toast.makeText(RegisterActivity.this, "Alamat Kosong", Toast.LENGTH_SHORT).show();
                                     }
@@ -184,5 +191,10 @@ public class RegisterActivity extends AppCompatActivity {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
         finish();
+    }
+
+    public boolean adaKoneksi() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 }

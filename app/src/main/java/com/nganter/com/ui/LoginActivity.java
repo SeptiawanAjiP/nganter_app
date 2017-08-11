@@ -1,7 +1,9 @@
 package com.nganter.com.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -54,7 +56,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!email.getText().toString().isEmpty()){
                     if(!password.getText().toString().isEmpty()){
-                        login(email.getText().toString(),password.getText().toString());
+
+                        if(adaKoneksi()){
+                            login(email.getText().toString(),password.getText().toString());
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+                        }
+
                     }else{
                         Toast.makeText(LoginActivity.this, "Password Kosong", Toast.LENGTH_SHORT).show();
                     }
@@ -130,5 +138,10 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(true);
         progressDialog.show();
+    }
+
+    public boolean adaKoneksi() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 }
