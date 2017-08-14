@@ -50,13 +50,13 @@
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:id="@+id/petunjuk"
+                    android:padding="5dp"
                     android:layout_gravity="center"
                     android:background="#212936">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Petunjuk"
-                        android:textColor="#fff"/>
+                   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/ic_info"/>
                 </LinearLayout>
                 <!--<TextView-->
                     <!--android:layout_width="wrap_content"-->
