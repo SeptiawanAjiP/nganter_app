@@ -30,6 +30,7 @@ import com.nganter.com.handler.AppContoller;
 import com.nganter.com.hubungikami.HubungiKami;
 import com.nganter.com.koneksi.Alamat;
 import com.nganter.com.objek.MenuUtama;
+import com.nganter.com.pesanan.PesananActivity;
 import com.nganter.com.pesanbarang.PesanBarang;
 import com.nganter.com.pesantiket.PesanTiketActivity;
 
@@ -101,39 +102,13 @@ public class HalamanUtamaAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Log.d("_akun",sessionManager.getUserAkun().getNama());
-                if(menuUtamas.get(position).getNama().equals("TIKET BIOSKOP")){
-                    Toast.makeText(activity, "Layanan ini akan hadir dalam waktu dekat", Toast.LENGTH_SHORT).show();
-//                    if(status.equals(HalamanUtama.TUTUP)){
-//                        Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();
-//                    }else{
-//                        final String[] pilihan = {"Rajawali","CGV Rita Mall"};
-//                        def = 0;
-//                        AlertDialog dialog = new AlertDialog.Builder(activity)
-//                                .setTitle("Pilih Bioskop")
-//                                .setSingleChoiceItems(pilihan, 0,  new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        def = which;
-//                                    }
-//                                })
-//                                .setPositiveButton("Pilih", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        Intent intent = new Intent(activity,PesanTiketActivity.class);
-//                                        intent.putExtra(PesanTiketActivity.BIOSKOP,pilihan[def]);
-//
-//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        activity.startActivity(intent);
-//                                    }
-//                                })
-//                                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//
-//                                    }
-//                                }).create();
-//                        dialog.show();
-//                    }
+                if(menuUtamas.get(position).getNama().equals("PESANAN ANDA")){
+                    if(adaKoneksi()){
+                        cekBukaTutup("pesanan_anda");
+                    }else{
+                        Toast.makeText(context, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+                    }
+
                 }else if(menuUtamas.get(position).getNama().equals("BELI MAKAN")){
                     if(adaKoneksi()){
                         cekBukaTutup("beli_makan");
@@ -189,6 +164,9 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                             PesanBarang cdd = new PesanBarang(activity, "Beli Barang");
                             cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             cdd.show();
+                        }else if(jenisLayanan.equals("pesanan_anda")){
+                            Intent intent = new Intent(activity, PesananActivity.class);
+                            activity.startActivity(intent);
                         }
                     }else{
                         Toast.makeText(context, "Maaf, pada jam ini layanan kami sedang tidak beroperasi, silakan hubungi cs kami", Toast.LENGTH_LONG).show();

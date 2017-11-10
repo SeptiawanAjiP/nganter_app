@@ -117,7 +117,7 @@ public class HalamanUtama extends AppCompatActivity {
         menuUtama = new MenuUtama("BELANJA",R.drawable.ic_beli_barang);
         menuUtamas.add(menuUtama);
 
-        menuUtama = new MenuUtama("TIKET BIOSKOP",R.drawable.ic_ticket);
+        menuUtama = new MenuUtama("PESANAN ANDA",R.drawable.ic_pesanan);
         menuUtamas.add(menuUtama);
 
         menuUtama = new MenuUtama("KONTAK",R.drawable.ic_contact);

@@ -38,6 +38,9 @@
         <activity android:name=".landingpage.WelcomeActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:screenOrientation="portrait"/>
+        <activity android:name=".pesanan.PesananActivity"
+            android:label="Pesanan"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
