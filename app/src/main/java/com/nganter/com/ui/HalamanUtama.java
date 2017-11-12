@@ -3,6 +3,8 @@ package com.nganter.com.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,12 +21,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.nganter.com.NganterApp;
 import com.nganter.com.R;
 import com.nganter.com.SessionManager;
 import com.nganter.com.handler.AppContoller;
 import com.nganter.com.koneksi.Alamat;
 import com.nganter.com.landingpage.WelcomeActivity;
 import com.nganter.com.objek.MenuUtama;
+import com.nganter.com.objek.Pesanan;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -86,6 +90,7 @@ public class HalamanUtama extends AppCompatActivity {
                     status = jsonObject.getString("status");
                     expandGridView.setAdapter(new HalamanUtamaAdapter(getApplicationContext(),menuUtamas,HalamanUtama.this,status));
                     progressDialog.dismiss();
+                    getPesanan();
                 }catch (Exception e){
 
                 }
@@ -139,4 +144,48 @@ public class HalamanUtama extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
+
+    public void getPesanan(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("respon");
+                    if(jsonArray.length()!=0){
+                        JSONObject object = jsonArray.getJSONObject(0);
+                        Pesanan pesanan = new Pesanan();
+                        pesanan.setPemesan(sessionManager.getUserAkun().getNama());
+                        pesanan.setIsiPesanan(object.getString("pesanan"));
+                        pesanan.setTanggal(object.getString("create_at"));
+                        pesanan.setIdPesanan(Integer.parseInt(object.getString("id_order")));
+
+                        DialogPesanan dialogPesanan = new DialogPesanan(HalamanUtama.this,pesanan);
+                        dialogPesanan.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialogPesanan.show();
+                    }
+
+                }catch (Exception e){
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map = new HashMap<>();
+                map.put("kode","cek_belum_rating");
+                map.put("id_pelanggan",sessionManager.getUserAkun().getIdPelanggan());
+                return map;
+            }
+        };
+        NganterApp.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+
+
 }

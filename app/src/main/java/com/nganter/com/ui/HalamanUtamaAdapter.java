@@ -23,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.nganter.com.NganterApp;
 import com.nganter.com.SessionManager;
 import com.nganter.com.antarbarang.AntarBarang;
 import com.nganter.com.R;
@@ -30,6 +31,7 @@ import com.nganter.com.handler.AppContoller;
 import com.nganter.com.hubungikami.HubungiKami;
 import com.nganter.com.koneksi.Alamat;
 import com.nganter.com.objek.MenuUtama;
+import com.nganter.com.objek.Pesanan;
 import com.nganter.com.pesanan.PesananActivity;
 import com.nganter.com.pesanbarang.PesanBarang;
 import com.nganter.com.pesantiket.PesanTiketActivity;
@@ -153,7 +155,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                     status = jsonObject.getString("status");
                     if(status.equals("buka")){
                         if(jenisLayanan.equals("beli_makan")){
-                            PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan");
+                            PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan","","");
                             cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             cdd.show();
                         }else if(jenisLayanan.equals("antar_barang")){
@@ -161,7 +163,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                             cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             cdd.show();
                         }else if(jenisLayanan.equals("belanja")){
-                            PesanBarang cdd = new PesanBarang(activity, "Beli Barang");
+                            PesanBarang cdd = new PesanBarang(activity, "Beli Barang","","");
                             cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             cdd.show();
                         }else if(jenisLayanan.equals("pesanan_anda")){
@@ -195,5 +197,6 @@ public class HalamanUtamaAdapter extends BaseAdapter {
         ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
+
 
 }

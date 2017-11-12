@@ -30,18 +30,18 @@ public class SelesaiAdapter extends RecyclerView.Adapter<SelesaiAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private ImageView icon;
-        private TextView toko,isiPesanan,waktu;
+        private TextView toko,isiPesanan,waktu,gagal;
         public MyViewHolder(View view){
             super(view);
             icon = (ImageView)view.findViewById(R.id.icon_service);
             toko = (TextView)view.findViewById(R.id.toko);
             waktu = (TextView)view.findViewById(R.id.waktu);
             isiPesanan = (TextView)view.findViewById(R.id.pesanan);
-            pesanan = new Pesanan();
+            gagal = (TextView)view.findViewById(R.id.gagal);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SelesaiDialog selesaiDialog = new SelesaiDialog(activity,pesanan);
+                    SelesaiDialog selesaiDialog = new SelesaiDialog(activity,pesananArrayList.get(getAdapterPosition()));
                     selesaiDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     selesaiDialog.show();
                 }
@@ -64,8 +64,20 @@ public class SelesaiAdapter extends RecyclerView.Adapter<SelesaiAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Pesanan pesanan = pesananArrayList.get(position);
-        holder.toko.setText(pesanan.getToko());
-        holder.waktu.setText(pesanan.getWaktu());
+        if(pesanan.getJenis().equals("beli_barang")||pesanan.getJenis().equals("pesan_makanan")){
+            holder.toko.setText("Beli makanan/barang");
+        }else if(pesanan.getJenis().equals("antar_barang")){
+            holder.toko.setText("Antar barang");
+        }
+
+        if(pesanan.getStatus().equals("ambil")){
+            holder.icon.setImageResource(R.drawable.ic_cek);
+        }else{
+
+            holder.icon.setImageResource(R.drawable.ic_cancel);
+            holder.gagal.setVisibility(View.VISIBLE);
+        }
+        holder.waktu.setText(pesanan.getTanggal()+","+pesanan.getWaktu().substring(0,5));
         holder.isiPesanan.setText(pesanan.getIsiPesanan());
     }
 

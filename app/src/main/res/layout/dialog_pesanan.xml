@@ -25,29 +25,48 @@
                     android:layout_height="wrap_content"
                     android:textSize="22dp"
                     android:textColor="@color/hitam"
-                    android:text="Pesan Makanan"
                     android:layout_centerHorizontal="true"
-                    android:id="@+id/judul_detil"/>
+                    android:id="@+id/nama_pemesan"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="pesanan Anda"
+                    android:textSize="12sp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/tv_pesan"
+                    android:layout_below="@id/nama_pemesan"
+                    android:gravity="center"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/pesanan_detail"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@id/judul_detil"
+                    android:layout_below="@id/tv_pesan"
                     android:textSize="14dp"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
+                    android:text="Pesanan Anda : Air Mineral 3 bungkus, rokok super dan 76 3 bungkus, permen"
                     android:textColor="@color/hitam"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Telah selesai diproses"
+                    android:textSize="18sp"
+                    android:textColor="@color/orange"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/pesanan_detail"
+                    android:id="@+id/selesai"
+                    android:layout_marginTop="15dp"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Anda dapat memesan kembali pesanan ini"
-                    android:layout_below="@id/pesanan_detail"
+                    android:text="Terimakasih telah menggunakan layanan nganter.com, mohon berikan rating terhadap pelayanan kami"
+                    android:layout_below="@id/selesai"
                     android:gravity="center"
                     android:textSize="13sp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="10dp"
-                    android:textColor="@color/orange"/>
+                    android:textColor="@color/hitam"/>
 
             </RelativeLayout>
 
@@ -66,36 +85,17 @@
                 android:layout_below="@id/garis"
                 android:weightSum="2">
 
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Tutup"
-                    android:id="@+id/tutup"
-                    android:background="@drawable/round_btn_kanan"
-                    android:textColor="@color/colorPrimary"
-                    android:textAppearance="@android:style/TextAppearance.Medium"
-                    android:textSize="16sp"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
 
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"/>
                 <Button
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Pesan kembali"
-                    android:id="@+id/pesan_kembali"
+                    android:text="Berikan rating"
+                    android:id="@+id/berikan_rating"
                     android:background="@drawable/round_btn_kiri"
                     android:textColor="@color/colorPrimary"
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     android:textSize="16sp"
                     android:foreground="?attr/selectableItemBackgroundBorderless"/>
-
-
 
             </LinearLayout>
         </RelativeLayout>

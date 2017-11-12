@@ -12,10 +12,23 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.nganter.com.NganterApp;
 import com.nganter.com.R;
+import com.nganter.com.SessionManager;
+import com.nganter.com.koneksi.Alamat;
 import com.nganter.com.objek.Pesanan;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by aji on 11/10/2017.
@@ -26,6 +39,7 @@ public class DalamProsesFragment extends Fragment {
     private RecyclerView recyclerView;
     private RelativeLayout rl;
     private TextView message;
+    private SessionManager sessionManager;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +53,9 @@ public class DalamProsesFragment extends Fragment {
         rl = (RelativeLayout)view.findViewById(R.id.memuat);
         message = (TextView)view.findViewById(R.id.message_status);
 
-        ArrayList<Pesanan> arrayList = new ArrayList<>();
+        sessionManager = new SessionManager(getContext());
 
-        Pesanan pe1 = new Pesanan("Quatrro112","17 September 2017, 18:00","Pesanan Anda mie goreng 3 bungkus lengkap dengan kuah panas dan es teh 5 bungkus, es nya dibungkus","makanan");
-        Pesanan pe2 = new Pesanan("Praketa","17 Januari 2017, 18:00","Kopi 3 bungkus","barang");
-        arrayList.add(pe1);
-        arrayList.add(pe2);
-        setRecyclerView(arrayList);
+        getData();
         return view;
     }
 
@@ -63,6 +73,47 @@ public class DalamProsesFragment extends Fragment {
             recyclerView.setAdapter(dalamProsesAdapter);
 
         }
+    }
+
+    public void getData(){
+        final ArrayList<Pesanan> pesananArrayList = new ArrayList<>();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("respon");
+                    for(int i=0;i<jsonArray.length();i++){
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        Pesanan pesanan = new Pesanan();
+                        pesanan.setIdPesanan(Integer.parseInt(object.getString("id_order")));
+                        pesanan.setJenis(object.getString("kategori"));
+                        pesanan.setIsiPesanan(object.getString("pesanan"));
+                        pesanan.setWaktu(object.getString("jam_antar"));
+                        pesanan.setTanggal(object.getString("create_at"));
+                        pesananArrayList.add(pesanan);
+                    }
+
+                    setRecyclerView(pesananArrayList);
+                }catch (Exception e){
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map = new HashMap<>();
+                map.put("kode","dalam_proses");
+                map.put("id_pelanggan",sessionManager.getUserAkun().getIdPelanggan());
+                return map;
+            }
+        };
+        NganterApp.getInstance(getContext()).addToRequestQueue(stringRequest);
     }
 
 

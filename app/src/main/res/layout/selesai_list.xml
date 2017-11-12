@@ -29,7 +29,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ora Umum"
                     android:id="@+id/toko"
                     android:textSize="16sp"
                     android:singleLine="true"
@@ -45,12 +44,21 @@
                     android:layout_below="@id/toko"
                     android:layout_toRightOf="@id/icon_service"
                     android:layout_marginLeft="25dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="pesanan gagal"
+                    android:textSize="10sp"
+                    android:id="@+id/gagal"
+                    android:visibility="gone"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/merah"/>
             </RelativeLayout>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:textSize="11sp"
+                android:textSize="13sp"
                 android:id="@+id/pesanan"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>

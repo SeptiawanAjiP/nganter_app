@@ -44,10 +44,13 @@ public class PesanBarang extends Dialog {
     private EditText toko,pesanan,alamatAntar;
     private SessionManager sessionManager;
     private ProgressDialog progressDialog;
-    public PesanBarang(Activity activity,String keterangan){
+    private String warung,orderan;
+    public PesanBarang(Activity activity,String keterangan,String warung,String orderan){
         super(activity);
         this.activity =activity;
         this.keterangan = keterangan;
+        this.warung = warung;
+        this.orderan = orderan;
     }
 
     @Override
@@ -68,6 +71,8 @@ public class PesanBarang extends Dialog {
         pesanan = (EditText)findViewById(R.id.keterangan_order);
         alamatAntar = (EditText)findViewById(R.id.alamat_order);
         waktuAntar = (TextView)findViewById(R.id.jam_dialog);
+        toko.setText(warung);
+        pesanan.setText(orderan);
         alamatAntar.setText(sessionManager.getUserAkun().getAlamat());
         getWaktu();
         waktuAntar.setOnClickListener(new View.OnClickListener() {

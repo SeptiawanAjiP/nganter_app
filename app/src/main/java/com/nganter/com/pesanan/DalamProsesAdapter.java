@@ -63,14 +63,16 @@ public class DalamProsesAdapter extends RecyclerView.Adapter<DalamProsesAdapter.
     @Override
     public void onBindViewHolder(DalamProsesAdapter.MyViewHolder holder, int position) {
         Pesanan pesanan = pesananArrayList.get(position);
-        if(pesanan.getJenis().equals("makanan")){
+        if(pesanan.getJenis().equals("beli_barang")||pesanan.getJenis().equals("pesan_makanan")){
             holder.icon.setImageResource(R.drawable.ic_food);
-        }else if(pesanan.getJenis().equals("barang")){
+            holder.toko.setText("Beli makanan/barang");
+        }else if(pesanan.getJenis().equals("antar_barang")){
             holder.icon.setImageResource(R.drawable.ic_box);
+            holder.toko.setText("Antar barang");
         }
         Log.d("sinta2",pesanan.getIsiPesanan().toString());
-        holder.toko.setText(pesanan.getToko());
-        holder.waktu.setText(pesanan.getWaktu());
+
+        holder.waktu.setText(pesanan.getTanggal()+","+pesanan.getWaktu().substring(0,5));
         holder.isiPesanan.setText(pesanan.getIsiPesanan());
     }
 

@@ -12,7 +12,8 @@ public class Pesanan {
     private String waktu;
     private String isiPesanan;
     private String jenis;
-
+    private String pemesan;
+    private String status;
     public Pesanan(){
 
     }
@@ -84,5 +85,21 @@ public class Pesanan {
 
     public void setJenis(String jenis) {
         this.jenis = jenis;
+    }
+
+    public String getPemesan() {
+        return pemesan;
+    }
+
+    public void setPemesan(String pemesan) {
+        this.pemesan = pemesan;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
