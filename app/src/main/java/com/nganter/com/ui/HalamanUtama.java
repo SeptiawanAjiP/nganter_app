@@ -1,12 +1,16 @@
 package com.nganter.com.ui;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,7 +25,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.nganter.com.GPSTracker;
 import com.nganter.com.NganterApp;
+import com.nganter.com.PermissionUtils;
 import com.nganter.com.R;
 import com.nganter.com.SessionManager;
 import com.nganter.com.handler.AppContoller;
@@ -29,6 +35,7 @@ import com.nganter.com.koneksi.Alamat;
 import com.nganter.com.landingpage.WelcomeActivity;
 import com.nganter.com.objek.MenuUtama;
 import com.nganter.com.objek.Pesanan;
+import com.vistrav.ask.Ask;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,6 +57,7 @@ public class HalamanUtama extends AppCompatActivity {
     public static final String TUTUP = "tutup";
     private LinearLayout petunjuk;
     ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,7 +193,6 @@ public class HalamanUtama extends AppCompatActivity {
         };
         NganterApp.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
-
 
 
 }

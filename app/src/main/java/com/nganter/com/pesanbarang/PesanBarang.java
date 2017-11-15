@@ -45,12 +45,16 @@ public class PesanBarang extends Dialog {
     private SessionManager sessionManager;
     private ProgressDialog progressDialog;
     private String warung,orderan;
-    public PesanBarang(Activity activity,String keterangan,String warung,String orderan){
+    private Double latitude;
+    private Double longitude;
+    public PesanBarang(Activity activity,String keterangan,String warung,String orderan,Double latitude,Double longitude){
         super(activity);
         this.activity =activity;
         this.keterangan = keterangan;
         this.warung = warung;
         this.orderan = orderan;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     @Override
@@ -203,6 +207,8 @@ public class PesanBarang extends Dialog {
                 maps.put("jam_antar",order.getJamAntar());
                 maps.put("lokasi_antar",order.getAlamatAntar());
                 maps.put("nama_penerima",sessionManager.getUserAkun().getNama());
+                maps.put("latitude",Double.toString(latitude));
+                maps.put("longitude",Double.toString(longitude));
                 return maps;
             }
         };

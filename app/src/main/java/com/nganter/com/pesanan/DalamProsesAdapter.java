@@ -29,13 +29,15 @@ public class DalamProsesAdapter extends RecyclerView.Adapter<DalamProsesAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private ImageView icon;
-        private TextView toko,isiPesanan,waktu;
+        private TextView toko,isiPesanan,waktu,tunggu,sedang;
         public MyViewHolder(View view){
             super(view);
             icon = (ImageView)view.findViewById(R.id.icon_service);
             toko = (TextView)view.findViewById(R.id.toko);
             waktu = (TextView)view.findViewById(R.id.waktu);
             isiPesanan = (TextView)view.findViewById(R.id.pesanan);
+            tunggu = (TextView)view.findViewById(R.id.tunggu_konfirmasi);
+            sedang = (TextView)view.findViewById(R.id.sedang_diproses);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -69,6 +71,14 @@ public class DalamProsesAdapter extends RecyclerView.Adapter<DalamProsesAdapter.
         }else if(pesanan.getJenis().equals("antar_barang")){
             holder.icon.setImageResource(R.drawable.ic_box);
             holder.toko.setText("Antar barang");
+        }
+
+        if(pesanan.getStatus().equals("antri")){
+            holder.tunggu.setVisibility(View.VISIBLE);
+            holder.sedang.setVisibility(View.GONE);
+        }else if(pesanan.getStatus().equals("ambil")){
+            holder.sedang.setVisibility(View.VISIBLE);
+            holder.tunggu.setVisibility(View.GONE);
         }
         Log.d("sinta2",pesanan.getIsiPesanan().toString());
 

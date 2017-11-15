@@ -70,10 +70,9 @@ public class SelesaiAdapter extends RecyclerView.Adapter<SelesaiAdapter.MyViewHo
             holder.toko.setText("Antar barang");
         }
 
-        if(pesanan.getStatus().equals("ambil")){
+        if(pesanan.getStatus().equals("selesai")){
             holder.icon.setImageResource(R.drawable.ic_cek);
-        }else{
-
+        }else if(pesanan.getStatus().equals("tolak")){
             holder.icon.setImageResource(R.drawable.ic_cancel);
             holder.gagal.setVisibility(View.VISIBLE);
         }

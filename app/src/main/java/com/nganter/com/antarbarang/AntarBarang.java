@@ -43,9 +43,13 @@ public class AntarBarang extends Dialog {
     private EditText alamatAmbil,alamatAntar,jenisBarang;
     private ProgressDialog progressDialog;
     private SessionManager sessionManager;
-    public AntarBarang(Activity activity){
+    private Double latitude;
+    private Double longitude;
+    public AntarBarang(Activity activity,Double latitude,Double longitude){
         super(activity);
         this.activity =activity;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     @Override
@@ -157,6 +161,8 @@ public class AntarBarang extends Dialog {
                 maps.put("jam_antar","");
                 maps.put("lokasi_antar",order.getAlamatAntar());
                 maps.put("nama_penerima",sessionManager.getUserAkun().getNama());
+                maps.put("latitude",Double.toString(latitude));
+                maps.put("longitude",Double.toString(longitude));
                 return maps;
             }
         };

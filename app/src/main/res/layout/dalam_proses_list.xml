@@ -49,8 +49,19 @@
                     android:layout_height="wrap_content"
                     android:text="sedang diproses"
                     android:textSize="10sp"
+                    android:id="@+id/sedang_diproses"
                     android:layout_alignParentRight="true"
+                    android:visibility="gone"
                     android:textColor="@color/merah"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="menunggu konfirmasi"
+                    android:textSize="10sp"
+                    android:id="@+id/tunggu_konfirmasi"
+                    android:visibility="gone"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/dot_dark_screen2"/>
             </RelativeLayout>
             <TextView
                 android:layout_width="wrap_content"

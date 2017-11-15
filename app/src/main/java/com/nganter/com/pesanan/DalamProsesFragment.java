@@ -91,6 +91,7 @@ public class DalamProsesFragment extends Fragment {
                         pesanan.setIsiPesanan(object.getString("pesanan"));
                         pesanan.setWaktu(object.getString("jam_antar"));
                         pesanan.setTanggal(object.getString("create_at"));
+                        pesanan.setStatus(object.getString("status"));
                         pesananArrayList.add(pesanan);
                     }
 
