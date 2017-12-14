@@ -2,4 +2,13 @@
     <string name="app_name">Nganter</string>
     <string name="version">0.0.1</string>
     <string name="nganter">Nganter.com siap melayani pesanan Anda. Kami antar sampai depan pintu rumah Anda.</string>
+
+    <string name="text_desc_login">Masukkan nomor hp</string>
+    <string name="prompt_phone">Nomor HP</string>
+    <string name="action_login">Masuk</string>
+    <string name="action_facebook">Terhubung ke Facebook</string>
+    <string name="register_ques">Belum Pernah Bergabung?</string>
+    <string name="action_register">Daftar</string>
+    <color name="white">#ffffff</color>
+    <string name="error_invalid_phone">Periksa kembali nomor telepon</string>
 </resources>

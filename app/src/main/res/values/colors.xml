@@ -22,5 +22,12 @@
     <color name="merah">#ff3232</color>
     <color name="hitam">#000</color>
 
+    <color name="grey">#dedede</color>
+    <color name="grey_dark">#808080</color>
+    <color name="badge">#f6c61b</color>
+    <color name="black10">#ABABAB</color>
+    <color name="fb_color">#3b5998</color>
+
+
 
 </resources>

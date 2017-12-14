@@ -80,6 +80,7 @@ public class DalamProsesFragment extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.d("cinta",response);
                 try{
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("respon");
@@ -97,7 +98,7 @@ public class DalamProsesFragment extends Fragment {
 
                     setRecyclerView(pesananArrayList);
                 }catch (Exception e){
-
+                    Log.d("cinte_error",e.toString());
                 }
             }
         }, new Response.ErrorListener() {

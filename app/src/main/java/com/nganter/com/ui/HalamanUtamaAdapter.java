@@ -102,11 +102,9 @@ public class HalamanUtamaAdapter extends BaseAdapter {
         }
         sessionManager = new SessionManager(activity.getApplicationContext());
 
-        TextView nama = (TextView)view.findViewById(R.id.nama_menu_utama);
         ImageView icon = (ImageView)view.findViewById(R.id.icon);
         RelativeLayout t = (RelativeLayout)view.findViewById(R.id.relative);
         icon.setImageResource(menuUtamas.get(position).getDrawabel());
-        nama.setText(menuUtamas.get(position).getNama());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

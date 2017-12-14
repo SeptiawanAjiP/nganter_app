@@ -6,17 +6,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#212936"
+        android:background="@color/putih"
         android:id="@+id/relative"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
         <ImageView
             android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:id="@+id/icon"/>
+            android:src="@drawable/ic_send"
+            android:id="@+id/icon"
+            android:layout_marginBottom="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,11 +27,11 @@
             android:id="@+id/nama_menu_utama"
             android:textSize="15sp"
             android:textStyle="bold"
+            android:visibility="gone"
             android:layout_marginTop="5dp"
-            android:textColor="#ffffff"
+            android:textColor="@color/hitam"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/icon"
-            android:layout_marginBottom="10dp"/>
+            android:layout_below="@+id/icon"/>
 
     </RelativeLayout>
 

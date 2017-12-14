@@ -105,6 +105,11 @@
                 android:textSize="13sp"/>
 
         </LinearLayout>
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_google"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:buttonSize="wide"/>
 
     </LinearLayout>
 

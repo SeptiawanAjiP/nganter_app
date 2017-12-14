@@ -177,6 +177,8 @@ public class PesanBarang extends Dialog {
                 maps.put("jam_antar",order.getJamAntar());
                 maps.put("lokasi_antar",order.getAlamatAntar());
                 maps.put("nama_penerima",sessionManager.getUserAkun().getNama());
+                maps.put("latitude",Double.toString(latitude));
+                maps.put("longitude",Double.toString(longitude));
                 return maps;
             }
         };
@@ -207,8 +209,6 @@ public class PesanBarang extends Dialog {
                 maps.put("jam_antar",order.getJamAntar());
                 maps.put("lokasi_antar",order.getAlamatAntar());
                 maps.put("nama_penerima",sessionManager.getUserAkun().getNama());
-                maps.put("latitude",Double.toString(latitude));
-                maps.put("longitude",Double.toString(longitude));
                 return maps;
             }
         };

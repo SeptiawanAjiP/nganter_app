@@ -10,6 +10,7 @@
         android:id="@+id/memuat"
         android:visibility="gone">
         <TextView
+            android:id="@+id/message_status"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -23,7 +24,5 @@
         android:layout_marginTop="10dp"
         android:id="@+id/dalam_proses_rv">
     </android.support.v7.widget.RecyclerView>
-
-
 
 </LinearLayout>

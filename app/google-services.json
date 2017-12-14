@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1090104063610",
+    "firebase_url": "https://nganter-8c12f.firebaseio.com",
+    "project_id": "nganter-8c12f",
+    "storage_bucket": "nganter-8c12f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090104063610:android:65f689b67680e468",
+        "android_client_info": {
+          "package_name": "com.nganter.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090104063610-me134igbom9l7fvquqprkho4pp28g5ur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nganter.com",
+            "certificate_hash": "b979f76aa25450e5e8dd5ada212968c28d630e19"
+          }
+        },
+        {
+          "client_id": "1090104063610-ujberuuk7pmtpfr2davvi8d6a1as7vmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALMK0UXloXuw6zOpRd9rLL_uSvg9J8FxQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090104063610-ujberuuk7pmtpfr2davvi8d6a1as7vmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
