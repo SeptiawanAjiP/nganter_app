@@ -151,7 +151,7 @@ public class AntarBarang extends Dialog {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> maps = new HashMap<>();
-                maps.put("kode","pesanan");
+                maps.put("kode","pesanan_new");
                 maps.put("id_pelanggan",sessionManager.getUserAkun().getIdPelanggan());
                 maps.put("kategori","antar_barang");
                 maps.put("pesanan","Alamat Ambil : "+order.getToko()+"" +

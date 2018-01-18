@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +58,9 @@ public class HalamanUtama extends AppCompatActivity {
     public static final String TUTUP = "tutup";
     private LinearLayout petunjuk;
     ProgressDialog progressDialog;
+    GPSTracker gps;
+    double latitude;
+    double longitude;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -193,6 +197,79 @@ public class HalamanUtama extends AppCompatActivity {
         };
         NganterApp.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
+
+    public void locationPermission(){
+
+        PermissionUtils.checkPermission(HalamanUtama.this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                new PermissionUtils.PermissionAskListener() {
+                    @Override
+                    public void onPermissionGranted() {
+                        if(adaKoneksi()){
+                            gps = new GPSTracker(HalamanUtama.this);
+                            if (gps.canGetLocation()) {
+                                if(gps.getLatitude()!=0 && gps.getLongitude()!=0){
+                                    latitude = gps.getLatitude();
+                                    longitude = gps.getLongitude();
+                                }
+                            } else {
+                                gps.showSettingsAlert();
+                            }
+
+
+                        }else {
+                            Toast.makeText(getApplicationContext(), "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRequest() {
+                        Ask.on(HalamanUtama.this)
+                                .id(2) // in case you are invoking multiple time Ask from same activity or fragment
+                                .forPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                .withRationales("Anda perlu mengizinkan Location Permission untuk melakukan order")//optional
+                                .go();
+                    }
+
+                    @Override
+                    public void onPermissionPreviouslyDenied() {
+                        Ask.on(HalamanUtama.this)
+                                .id(2) // in case you are invoking multiple time Ask from same activity or fragment
+                                .forPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                .withRationales("Anda perlu mengizinkan Location Permission untuk melakukan order")//optional
+                                .go();
+                    }
+
+                    @Override
+                    public void onPermissionDisabled() {
+                        AlertDialog dialog = new AlertDialog.Builder(HalamanUtama.this)
+                                .setTitle("Location Permission")
+                                .setCancelable(false)
+                                .setMessage("Location Permission dibutuhkan. Aktifkan Location Permission melalui menu setting ?")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                                Uri.parse("package:" + HalamanUtama.this.getPackageName()));
+                                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).create();
+                        dialog.show();
+                    }
+                });
+
+    }
+
+
+
 
 
 }

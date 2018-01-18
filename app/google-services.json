@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "1090104063610",
-    "firebase_url": "https://nganter-8c12f.firebaseio.com",
-    "project_id": "nganter-8c12f",
-    "storage_bucket": "nganter-8c12f.appspot.com"
+    "project_number": "928207177094",
+    "firebase_url": "https://nganter-27425.firebaseio.com",
+    "project_id": "nganter-27425",
+    "storage_bucket": "nganter-27425.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1090104063610:android:65f689b67680e468",
+        "mobilesdk_app_id": "1:928207177094:android:65f689b67680e468",
         "android_client_info": {
           "package_name": "com.nganter.com"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1090104063610-me134igbom9l7fvquqprkho4pp28g5ur.apps.googleusercontent.com",
+          "client_id": "928207177094-avghgt06t27vie2qjacjrbp3c1lam9vm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.nganter.com",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "1090104063610-ujberuuk7pmtpfr2davvi8d6a1as7vmm.apps.googleusercontent.com",
+          "client_id": "928207177094-qbmulelst07gu4671b18iae9io02qjlu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyALMK0UXloXuw6zOpRd9rLL_uSvg9J8FxQ"
+          "current_key": "AIzaSyATIwI_iHtkUJePeZQ0J-vey2GPqH6-vtI"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "1090104063610-ujberuuk7pmtpfr2davvi8d6a1as7vmm.apps.googleusercontent.com",
+              "client_id": "928207177094-qbmulelst07gu4671b18iae9io02qjlu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

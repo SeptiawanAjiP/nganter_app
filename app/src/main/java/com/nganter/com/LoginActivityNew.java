@@ -131,7 +131,7 @@ public class LoginActivityNew extends AppCompatActivity implements OnClickListen
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken("928207177094-qbmulelst07gu4671b18iae9io02qjlu.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 

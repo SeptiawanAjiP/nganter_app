@@ -135,6 +135,8 @@ public class PesanBarang extends Dialog {
     }
 
     public void insertPesanan(final Order order){
+        Toast.makeText(activity, "latitude"+latitude, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "longitude"+longitude, Toast.LENGTH_SHORT).show();
         final String kategori;
         if(keterangan.equals("Pesan Makanan")){
             kategori = "pesan_makanan";
@@ -168,7 +170,7 @@ public class PesanBarang extends Dialog {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> maps = new HashMap<>();
-                maps.put("kode","pesanan");
+                maps.put("kode","pesanan_new");
                 maps.put("id_pelanggan",sessionManager.getUserAkun().getIdPelanggan());
                 maps.put("kategori",kategori);
                 maps.put("pesanan","Toko/Warung : "+order.getToko()+"" +

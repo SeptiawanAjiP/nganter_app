@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,7 +26,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.nganter.com.GPSTracker;
-import com.nganter.com.NganterApp;
 import com.nganter.com.PermissionUtils;
 import com.nganter.com.SessionManager;
 import com.nganter.com.antarbarang.AntarBarang;
@@ -62,11 +61,14 @@ public class HalamanUtamaAdapter extends BaseAdapter {
     GPSTracker gps;
     double latitude;
     double longitude;
+    private Handler mHandler;
+    private Runnable runnable;
     public HalamanUtamaAdapter(Context context, ArrayList<MenuUtama> menuUtamas, Activity activity,String status){
         this.context = context;
         this.menuUtamas = menuUtamas;
         this.activity = activity;
         this.status = status;
+
 
         Log.d("__status",status);
     }
@@ -106,9 +108,12 @@ public class HalamanUtamaAdapter extends BaseAdapter {
         RelativeLayout t = (RelativeLayout)view.findViewById(R.id.relative);
         icon.setImageResource(menuUtamas.get(position).getDrawabel());
 
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                locationPermission();
+
                 Log.d("_akun",sessionManager.getUserAkun().getNama());
                 if(menuUtamas.get(position).getNama().equals("PESANAN ANDA")){
                     if(adaKoneksi()){
@@ -160,7 +165,15 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
                     status = jsonObject.getString("status");
                     if(status.equals("buka")){
-                        locationPermission();
+                        gps = new GPSTracker(activity);
+                        if (gps.canGetLocation()) {
+                            if(gps.getLatitude()!=0 && gps.getLongitude()!=0){
+                                latitude = gps.getLatitude();
+                                longitude = gps.getLongitude();
+                            }
+                        } else {
+                            gps.showSettingsAlert();
+                        }
                         if(jenisLayanan.equals("beli_makan")){
                             PesanBarang cdd = new PesanBarang(activity,"Pesan Makanan","","",latitude,longitude);
                             cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -206,6 +219,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
     }
 
     public void locationPermission(){
+
         PermissionUtils.checkPermission(activity,
                 android.Manifest.permission.ACCESS_FINE_LOCATION,
                 new PermissionUtils.PermissionAskListener() {
@@ -213,13 +227,16 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                     public void onPermissionGranted() {
                         if(adaKoneksi()){
                             gps = new GPSTracker(activity);
-                            //                            // check if GPS enabled
                             if (gps.canGetLocation()) {
-                                latitude = gps.getLatitude();
-                                longitude = gps.getLongitude();
+                                if(gps.getLatitude()!=0 && gps.getLongitude()!=0){
+                                    latitude = gps.getLatitude();
+                                    longitude = gps.getLongitude();
+                                }
                             } else {
                                 gps.showSettingsAlert();
                             }
+
+
                         }else {
                             Toast.makeText(context, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
                         }
@@ -230,7 +247,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                         Ask.on(activity)
                                 .id(2) // in case you are invoking multiple time Ask from same activity or fragment
                                 .forPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION)
-                                .withRationales("Anda perlu mengizinkan Location Permission")//optional
+                                .withRationales("Anda perlu mengizinkan Location Permission untuk melakukan order")//optional
                                 .go();
                     }
 
@@ -239,7 +256,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                         Ask.on(activity)
                                 .id(2) // in case you are invoking multiple time Ask from same activity or fragment
                                 .forPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION)
-                                .withRationales("Anda perlu mengizinkan Location Permission")//optional
+                                .withRationales("Anda perlu mengizinkan Location Permission untuk melakukan order")//optional
                                 .go();
                     }
 
@@ -270,6 +287,7 @@ public class HalamanUtamaAdapter extends BaseAdapter {
                 });
 
     }
+
 
 
 }

@@ -176,7 +176,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (result.isSuccess()) {
             Log.d(TAG, "result success");
             // Signed in successfully, show authenticated UI.
-            showProgress();
             GoogleSignInAccount account = result.getSignInAccount();
             firebaseAuthWithGoogle(account);
         } else {
@@ -194,7 +193,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        showProgress();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(GOOGLE, "signInWithCredential:success");
@@ -268,7 +266,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void loginGoogle(final String email){
-        showProgress();
         StringRequest string = new StringRequest(Request.Method.POST, Alamat.ALAMT_SERVER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -289,8 +286,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             progressDialog.dismiss();
                         }
                     }else{
-                        Toast.makeText(LoginActivity.this, "Login Gagal", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
+                        Toast.makeText(LoginActivity.this, "Email belum terdaftar. Lakukan registrasi terlebih dulu", Toast.LENGTH_SHORT).show();
                     }
 
 
